@@ -18,9 +18,9 @@ Pour prévisualiser : `python3 -m http.server --directory dist` (ou tout autre s
 | Chemin | Rôle |
 | --- | --- |
 | `data/products.json` | Source unique des produits. |
-| `data/site.json` | Réglages du site : titre, description, URL publique, liens vers les boutiques. |
+| `data/site.json` | Réglages du site : titre, description, liens vers les boutiques. |
 | `src/styles.css` | Feuille de styles, copiée dans `dist/styles.css`. |
-| `public/` | Fichiers copiés tels quels dans `dist/` (images, favicon, `_headers`). |
+| `public/` | Fichiers copiés tels quels dans `dist/` (images, favicon). |
 | `build.mjs` | Génère `dist/index.html`, `dist/styles.css`, `dist/sitemap.xml`, `dist/robots.txt` et copie `public/` vers `dist/`. |
 | `check.mjs` | Vérifie les produits et `dist/` (voir plus bas). |
 
@@ -57,18 +57,22 @@ Il suffit d'ajouter une entrée dans `data/products.json` et de déposer ses ima
 ## Ce que vérifie `check.mjs`
 
 - chaque produit a un nom, un prix, une `etsyUrl` valide et au moins une image existante dans `public/` ;
-- `dist/` contient `index.html`, `styles.css`, `sitemap.xml` et `robots.txt` ;
+- `dist/` contient `index.html`, `styles.css`, `sitemap.xml`, `robots.txt` et `.nojekyll` ;
+- `canonical`, `og:url`, `og:image`, sitemap et robots.txt pointent vers `BASE_URL`, et aucun chemin du HTML ou du CSS ne commence par `/` ;
 - `index.html` est en `lang="fr"`, n'embarque aucun script exécutable (seul le JSON-LD), chaque image a `alt`, `width` et `height`, et le nombre de boutons Etsy / Leboncoin correspond aux données ;
 - aucun mot interdit (« 3D », « impression », « imprimé », « imprimante », insensible à la casse et aux accents) dans les fichiers texte de `dist/`.
 
-Le script se termine avec le code 1 au moindre échec. Il est lancé par la CI (`.github/workflows/ci.yml`) après le build.
+Le script se termine avec le code 1 au moindre échec. Il est lancé après le build par la CI (`.github/workflows/ci.yml`) et par le workflow de déploiement.
 
-## Déploiement (Cloudflare Pages)
+## Déploiement (GitHub Pages)
 
-- Commande de build : `node build.mjs`
-- Dossier de sortie : `dist`
-- Variable d'environnement : `NODE_VERSION=20` (si nécessaire)
-- `SITE_URL` (optionnel) : URL publique du site, sans slash final. Elle prime sur `url` de `data/site.json` et sert aux URL absolues (`canonical`, Open Graph, JSON-LD, sitemap, robots.txt). Pensez à mettre à jour `url` dans `data/site.json` quand le domaine définitif est connu.
+Le site est servi sous `https://pockemon.github.io/meltro-studio/`.
+
+- `.github/workflows/pages.yml` : sur push vers `main` (et manuellement via `workflow_dispatch`), lance `node build.mjs` et `node check.mjs`, puis déploie `dist/` avec `actions/configure-pages`, `actions/upload-pages-artifact` et `actions/deploy-pages` (environnement `github-pages`).
+- À activer une fois dans le dépôt : Settings > Pages > Source : **GitHub Actions**.
+- Le HTML n'utilise que des chemins relatifs (`styles.css`, `images/...`, `./`), ce qui fonctionne sous le sous-chemin `/meltro-studio/`. La constante `BASE_URL` de `build.mjs` ne sert qu'aux URL absolues : `canonical`, `og:url`, `og:image`, JSON-LD, `sitemap.xml` et `robots.txt`. `check.mjs` échoue si un chemin commence par `/` ou si ces URL ne commencent pas par `BASE_URL`.
+- `dist/.nojekyll` est créé par le build pour que GitHub Pages serve les fichiers tels quels.
+- Pour changer de domaine, modifier `BASE_URL` dans `build.mjs` (et la constante du même nom dans `check.mjs`).
 
 ## Polices
 

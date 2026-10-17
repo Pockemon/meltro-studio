@@ -9,7 +9,8 @@ const DIST = join(ROOT, 'dist');
 const PUBLIC_DIR = join(ROOT, 'public');
 
 const TEXT_EXTENSIONS = new Set(['.html', '.css', '.xml', '.txt', '.json', '.svg', '.js', '.mjs', '.webmanifest']);
-const REQUIRED_DIST_FILES = ['index.html', 'styles.css', 'sitemap.xml', 'robots.txt'];
+const REQUIRED_DIST_FILES = ['index.html', 'styles.css', 'sitemap.xml', 'robots.txt', '.nojekyll'];
+const BASE_URL = 'https://pockemon.github.io/meltro-studio';
 
 // « 3D » est cherché comme mot isolé : les codes couleur comme #e3d9cc ne doivent pas déclencher d'alerte.
 const FORBIDDEN = [
@@ -121,6 +122,24 @@ function checkDist(products) {
     if (!/\bwidth="\d+"/.test(tag) || !/\bheight="\d+"/.test(tag)) fail(`index.html : image sans width/height : ${tag.slice(0, 80)}`);
     const src = /\bsrc="([^"]+)"/.exec(tag)?.[1];
     if (src && !isUrl(src) && !existsSync(join(DIST, decodeURIComponent(src)))) fail(`index.html : image absente de dist/ : ${src}`);
+  }
+
+  const attr = (re) => re.exec(html)?.[1];
+  const canonical = attr(/<link rel="canonical" href="([^"]+)"/);
+  const ogUrl = attr(/<meta property="og:url" content="([^"]+)"/);
+  const ogImage = attr(/<meta property="og:image" content="([^"]+)"/);
+  if (canonical !== `${BASE_URL}/`) fail(`canonical attendu : ${BASE_URL}/ (trouvé : ${canonical}).`);
+  if (ogUrl !== `${BASE_URL}/`) fail(`og:url attendu : ${BASE_URL}/ (trouvé : ${ogUrl}).`);
+  if (!ogImage?.startsWith(`${BASE_URL}/`)) fail(`og:image doit commencer par ${BASE_URL}/ (trouvé : ${ogImage}).`);
+  for (const [name, expected] of [['sitemap.xml', `<loc>${BASE_URL}/</loc>`], ['robots.txt', `Sitemap: ${BASE_URL}/sitemap.xml`]]) {
+    const file = join(DIST, name);
+    if (existsSync(file) && !readFileSync(file, 'utf8').includes(expected)) fail(`dist/${name} doit contenir « ${expected} ».`);
+  }
+  // Servi sous /meltro-studio/ : un chemin commençant par « / » casserait CSS, images et liens.
+  for (const m of html.matchAll(/\b(?:src|href)="(\/[^"]*)"/g)) fail(`index.html : chemin absolu à la racine (casse le sous-chemin) : ${m[1]}`);
+  const css = join(DIST, 'styles.css');
+  if (existsSync(css)) {
+    for (const m of readFileSync(css, 'utf8').matchAll(/url\(\s*['"]?(\/[^)'"]*)/g)) fail(`styles.css : chemin absolu à la racine : ${m[1]}`);
   }
 
   const etsyButtons = (html.match(/class="btn btn-etsy"/g) ?? []).length;

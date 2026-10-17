@@ -8,6 +8,10 @@ const ROOT = dirname(fileURLToPath(import.meta.url));
 const DIST = join(ROOT, 'dist');
 const PUBLIC_DIR = join(ROOT, 'public');
 
+// Le site est servi sous un sous-chemin (GitHub Pages) : le HTML n'utilise que des chemins relatifs,
+// BASE_URL ne sert qu'aux URL absolues (canonical, Open Graph, JSON-LD, sitemap, robots.txt).
+const BASE_URL = 'https://pockemon.github.io/meltro-studio';
+
 const FONTS_URL =
   'https://fonts.googleapis.com/css2' +
   '?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600' +
@@ -139,7 +143,7 @@ function renderCard(p, { eagerFirst }) {
 }
 
 function productJsonLd(p, site) {
-  const abs = (src) => `${site.url}/${encodePath(src)}`;
+  const abs = (src) => `${BASE_URL}/${encodePath(src)}`;
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -161,7 +165,7 @@ function productJsonLd(p, site) {
 function renderIndex(products, site) {
   const first = products[0];
   const ogImage = first && first.images[0];
-  const absolute = (src) => `${site.url}/${encodePath(src)}`;
+  const absolute = (src) => `${BASE_URL}/${encodePath(src)}`;
   const headerLinks = [
     site.etsyShopUrl && { href: site.etsyShopUrl, long: 'Boutique Etsy', short: 'Etsy' },
     site.leboncoinShopUrl && { href: site.leboncoinShopUrl, long: 'Leboncoin', short: 'Leboncoin' },
@@ -189,14 +193,14 @@ function renderIndex(products, site) {
   <title>${esc(site.title)}</title>
   <meta name="description" content="${esc(site.description)}">
   <meta name="theme-color" content="#F5EFE6">
-  <link rel="canonical" href="${esc(site.url)}/">
+  <link rel="canonical" href="${esc(BASE_URL)}/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:site_name" content="${esc(site.name)}">
   <meta property="og:title" content="${esc(site.title)}">
   <meta property="og:description" content="${esc(site.description)}">
-  <meta property="og:url" content="${esc(site.url)}/">${
+  <meta property="og:url" content="${esc(BASE_URL)}/">${
     ogImage
       ? `
   <meta property="og:image" content="${esc(absolute(ogImage.src))}">
@@ -241,23 +245,23 @@ ${ld}
 
 function main() {
   const site = { ...readJson('data/site.json') };
-  site.url = (process.env.SITE_URL || site.url).replace(/\/+$/, '');
   const products = loadProducts();
 
   rmSync(DIST, { recursive: true, force: true });
   mkdirSync(DIST, { recursive: true });
   if (existsSync(PUBLIC_DIR)) cpSync(PUBLIC_DIR, DIST, { recursive: true });
 
+  writeFileSync(join(DIST, '.nojekyll'), '');
   writeFileSync(join(DIST, 'index.html'), renderIndex(products, site));
   writeFileSync(join(DIST, 'styles.css'), readFileSync(join(ROOT, 'src/styles.css')));
   writeFileSync(
     join(DIST, 'sitemap.xml'),
-    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url>\n    <loc>${esc(site.url)}/</loc>\n  </url>\n</urlset>\n`,
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url>\n    <loc>${esc(BASE_URL)}/</loc>\n  </url>\n</urlset>\n`,
   );
-  writeFileSync(join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${site.url}/sitemap.xml\n`);
+  writeFileSync(join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${BASE_URL}/sitemap.xml\n`);
 
   console.log(`build ok : ${products.length} produit(s) -> ${resolve(DIST)}`);
-  console.log(`site.url = ${site.url}`);
+  console.log(`BASE_URL = ${BASE_URL}`);
 }
 
 main();
