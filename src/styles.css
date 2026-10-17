@@ -458,6 +458,10 @@ a {
     display: inline;
   }
 
+  .nav-leboncoin {
+    display: none;
+  }
+
   .site-header {
     padding: 16px 20px;
   }

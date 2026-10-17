@@ -51,6 +51,7 @@ Il suffit d'ajouter une entrée dans `data/products.json` et de déposer ses ima
 - `id` : minuscules, chiffres et tirets, unique (sert d'ancre dans la page).
 - `price` : nombre, identique sur Etsy et Leboncoin (frais de port en plus).
 - `leboncoinUrl` : laisser vide (`""`) tant qu'il n'y a pas d'annonce, le bouton « Voir sur Leboncoin » n'est alors pas affiché.
+- Lien « Leboncoin » de l'en-tête (masqué sur mobile, comme dans Figma) : tant qu'il n'y a qu'un produit, il pointe vers son `leboncoinUrl` ; à partir de deux produits, il n'apparaît que si `leboncoinShopUrl` (page vendeur) est renseignée dans `data/site.json`. Sans URL, il est masqué.
 - `images` : chemins relatifs à `public/`. La première image est la photo principale et sert d'image de partage pour le premier produit. Une image peut aussi être une simple chaîne (`"images/x.jpg"`) ; l'alt est alors généré automatiquement, mieux vaut en écrire un descriptif.
 - Les dimensions (`width`/`height`) sont lues dans les fichiers au moment du build (JPEG, PNG ou WebP). Redimensionner les photos à 1600 px maximum avant de les ajouter.
 

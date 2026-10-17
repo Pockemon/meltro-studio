@@ -149,6 +149,12 @@ function checkDist(products) {
   if (leboncoinButtons !== expectedLeboncoin) {
     fail(`${leboncoinButtons} bouton(s) Leboncoin affiché(s), ${expectedLeboncoin} attendu(s) (URL renseignées).`);
   }
+  const site = JSON.parse(readFileSync(join(ROOT, 'data/site.json'), 'utf8'));
+  const expectedHeaderLeboncoin = site.leboncoinShopUrl || (products.length === 1 ? products[0].leboncoinUrl : '');
+  const headerLeboncoin = /<a class="nav-leboncoin" href="([^"]+)"/.exec(html)?.[1];
+  if ((headerLeboncoin ?? '') !== (expectedHeaderLeboncoin ?? '')) {
+    fail(`lien Leboncoin de l'en-tête : « ${headerLeboncoin ?? 'absent'} », attendu « ${expectedHeaderLeboncoin || 'absent'} ».`);
+  }
   for (const p of products) {
     if (!html.includes(`id="${p.id}"`)) fail(`produit « ${p.id} » absent de index.html.`);
   }

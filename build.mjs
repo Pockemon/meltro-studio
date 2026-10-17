@@ -166,9 +166,13 @@ function renderIndex(products, site) {
   const first = products[0];
   const ogImage = first && first.images[0];
   const absolute = (src) => `${BASE_URL}/${encodePath(src)}`;
+  // Un seul produit : le lien d'en-tête pointe vers son annonce. Plusieurs produits : seulement si
+  // leboncoinShopUrl (page vendeur) est renseignée dans data/site.json. Sinon, aucun lien.
+  const leboncoinHeaderUrl =
+    site.leboncoinShopUrl || (products.length === 1 ? products[0].leboncoinUrl : '');
   const headerLinks = [
     site.etsyShopUrl && { href: site.etsyShopUrl, long: 'Boutique Etsy', short: 'Etsy' },
-    site.leboncoinShopUrl && { href: site.leboncoinShopUrl, long: 'Leboncoin', short: 'Leboncoin' },
+    leboncoinHeaderUrl && { href: leboncoinHeaderUrl, long: 'Leboncoin', short: 'Leboncoin', cls: ' class="nav-leboncoin"' },
   ]
     .filter(Boolean)
     .map((l) => {
@@ -176,7 +180,7 @@ function renderIndex(products, site) {
         l.long === l.short
           ? esc(l.long)
           : `<span class="long">${esc(l.long)}</span><span class="short">${esc(l.short)}</span>`;
-      return `<a href="${esc(l.href)}" target="_blank" rel="noopener">${label}<span class="sr-only"> (nouvel onglet)</span></a>`;
+      return `<a${l.cls ?? ''} href="${esc(l.href)}" target="_blank" rel="noopener">${label}<span class="sr-only"> (nouvel onglet)</span></a>`;
     })
     .join('\n      ');
 
