@@ -331,50 +331,88 @@ a {
   background: var(--bg);
 }
 
-.hero-photo {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: calc(50% - 280px);
-  right: 0;
+.glow--hero {
+  left: calc(50% - 80px);
+  top: -20px;
+  width: 900px;
+  height: 900px;
 }
 
-.hero-photo picture,
-.hero-photo img {
+/* Pile de cartes en perspective : chaque carte porte sa propre perspective(1200px), avec le centre de la pile
+   comme point de fuite (transform-origin), ce qui revient à une scène commune.
+   --z : profondeur en px ; --r : rotation en degrés ; --cx / --cy : centre de la carte par rapport au centre de la pile.
+   --rx / --ry : parallaxe pointeur (posées par le script sur .stage).
+   La translation et l'échelle compensent la perspective : au repos, la pile est identique à la maquette. */
+.stage {
+  position: absolute;
+  right: max(16px, calc(50% - 660px));
+  top: 130px;
+  width: 640px;
+  height: 660px;
+  transform-origin: 100% 50%;
+}
+
+.stage-float {
+  position: absolute;
+  inset: 0;
+}
+
+.stack-card {
+  position: absolute;
+  overflow: hidden;
+  border: 1px solid var(--cream);
+  border-radius: 26px;
+  box-shadow: 0 40px 70px -12px rgba(0, 0, 0, 0.6);
+  transform-origin: calc(50% - var(--cx) * 1px) calc(50% - var(--cy) * 1px);
+  transform: perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg))
+    translate3d(
+      calc(var(--cx) * var(--z) / -1200 * 1px),
+      calc(var(--cy) * var(--z) / -1200 * 1px),
+      calc(var(--z) * 1px)
+    )
+    translate(calc(var(--cx) * 1px), calc(var(--cy) * 1px)) scale(calc(1 - var(--z) / 1200))
+    rotate(calc(var(--r) * 1deg)) translate(calc(var(--cx) * -1px), calc(var(--cy) * -1px));
+}
+
+.stack-card img {
   width: 100%;
   height: 100%;
-}
-
-.hero-photo img {
   object-fit: cover;
 }
 
-.hero-shade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    #120d0a 0%,
-    rgba(18, 13, 10, 0.96) 42%,
-    rgba(18, 13, 10, 0.35) 62%,
-    rgba(18, 13, 10, 0.1) 100%
-  );
+.stack-card--a {
+  left: 353.4px;
+  top: 210.3px;
+  width: 300px;
+  height: 230px;
+  opacity: 0.85;
+  --cx: 183.4;
+  --cy: -4.7;
+  --r: -14;
+  --z: -50;
 }
 
-.hero-fade {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 260px;
-  background: linear-gradient(180deg, rgba(18, 13, 10, 0), #120d0a);
+.stack-card--b {
+  left: -23.3px;
+  top: 356px;
+  width: 320px;
+  height: 240px;
+  opacity: 0.9;
+  --cx: -183.3;
+  --cy: 146;
+  --r: 10;
+  --z: 20;
 }
 
-.glow--hero {
-  left: calc(50% + 40px);
-  top: 120px;
-  width: 700px;
-  height: 700px;
+.stack-card--c {
+  left: 133.9px;
+  top: 31px;
+  width: 330px;
+  height: 450px;
+  --cx: -21.1;
+  --cy: -74;
+  --r: 4;
+  --z: 70;
 }
 
 .hero-text {
@@ -389,7 +427,7 @@ a {
 }
 
 .hero-title {
-  width: 6.8em;
+  width: 660px;
   max-width: 100%;
   font-size: 88px;
   line-height: 94px;
@@ -487,120 +525,13 @@ a {
   color: var(--muted);
 }
 
-/* ---------- Accueil : pièce du moment ---------- */
+/* ---------- Accueil : collection ---------- */
 
-.moment {
+.collection {
   padding: 140px 0 120px;
-  overflow-x: clip;
 }
 
-.moment-grid {
-  display: flex;
-  align-items: center;
-  gap: 96px;
-}
-
-.moment-visual {
-  position: relative;
-  flex: 0 0 46.875%;
-  max-width: 600px;
-  aspect-ratio: 600 / 720;
-}
-
-.glow--moment {
-  left: -13.333%;
-  top: -2.78%;
-  width: 126.667%;
-  aspect-ratio: 1;
-  background: radial-gradient(circle closest-side, rgba(255, 122, 26, 0.33), rgba(255, 122, 26, 0));
-}
-
-.moment-photo {
-  position: absolute;
-  left: 6.667%;
-  top: 2.78%;
-  width: 86.667%;
-  height: 94.44%;
-  border-radius: 28px;
-  box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.55);
-}
-
-.moment-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 28px;
-}
-
-.moment-visual .tag {
-  left: 10.667%;
-  top: 6.11%;
-}
-
-.moment-text {
-  display: flex;
-  flex: 1 1 0;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 26px;
-  min-width: 0;
-}
-
-.h-moment {
-  max-width: 560px;
-  font-size: 64px;
-  line-height: 68px;
-  letter-spacing: -0.015em;
-  color: var(--cream);
-}
-
-.moment-pitch {
-  max-width: 560px;
-  font-size: 19px;
-  line-height: 31px;
-  color: var(--muted);
-}
-
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.chips li {
-  padding: 9px 16px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--surface-2);
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text);
-}
-
-@media (min-width: 1360px) {
-  .chips {
-    margin-right: -48px;
-  }
-}
-
-.moment-note {
-  font-size: 14px;
-  color: var(--muted);
-}
-
-.moment-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-}
-
-/* ---------- Accueil : ambiance ---------- */
-
-.ambiance {
-  padding: 40px 0 140px;
-}
-
-.ambiance-head {
+.collection-head {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
@@ -609,89 +540,23 @@ a {
   margin-bottom: 48px;
 }
 
-.ambiance-head .eyebrow {
+.collection-head .eyebrow {
   margin-bottom: 14px;
 }
 
-.h-ambiance {
-  max-width: 720px;
-  font-size: 52px;
-  line-height: 58px;
-  letter-spacing: -0.01em;
+.h-collection {
+  font-size: 56px;
+  line-height: 60px;
+  letter-spacing: -0.015em;
   color: var(--cream);
 }
 
-.ambiance-text {
-  width: 380px;
+.collection-text {
+  width: 420px;
   max-width: 100%;
   font-size: 17px;
   line-height: 27px;
   color: var(--muted);
-}
-
-.mosaic {
-  display: grid;
-  grid-template-columns: 640fr 620fr;
-  grid-template-rows: 270px 270px;
-  gap: 20px;
-}
-
-.tile {
-  position: relative;
-  overflow: hidden;
-  border-radius: 24px;
-  background: var(--surface);
-}
-
-.tile-1 {
-  grid-row: 1 / span 2;
-}
-
-.tile img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.tile::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 200px;
-  background: linear-gradient(180deg, rgba(18, 13, 10, 0), rgba(18, 13, 10, 0.9));
-}
-
-.tile-1::after {
-  height: 220px;
-}
-
-.tile-caption {
-  position: absolute;
-  z-index: 1;
-  left: 28px;
-  right: 28px;
-  bottom: 24px;
-  font-size: 26px;
-  line-height: 32px;
-  color: var(--cream);
-}
-
-.tile-1 .tile-caption {
-  bottom: 32px;
-}
-
-/* ---------- Accueil : collection (plusieurs produits seulement) ---------- */
-
-.collection {
-  padding: 0 0 140px;
-}
-
-.collection .eyebrow {
-  margin-bottom: 14px;
 }
 
 .h-section {
@@ -703,54 +568,289 @@ a {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
-  margin-top: 40px;
+  align-items: start;
+}
+
+.card-item {
+  min-width: 0;
+}
+
+.card-tilt {
+  position: relative;
+  will-change: auto;
+}
+
+/* Ombre ember renforcée au survol : un calque dont seule l'opacité varie. */
+.card-tilt::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  box-shadow: 0 40px 90px -10px rgba(255, 122, 26, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card-item.is-hot .card-tilt::before {
+  opacity: 1;
 }
 
 .card {
+  position: relative;
+  display: block;
   overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: 24px;
+  border-radius: 28px;
   background: var(--surface);
+  box-shadow: 0 30px 60px -10px rgba(255, 115, 26, 0.18);
 }
 
-.card-link {
+.card-visual {
+  position: relative;
   display: block;
+  height: 460px;
+  overflow: hidden;
+  view-transition-name: var(--vt, none);
+  view-transition-class: photo;
 }
 
 .card-photo {
   width: 100%;
-  height: auto;
-  aspect-ratio: 4 / 5;
+  height: 100%;
   object-fit: cover;
+}
+
+.card-tag {
+  left: 20px;
+  top: 20px;
+  padding: 8px 14px;
+  font-size: 13px;
+}
+
+.card-tag .dot-tag {
+  width: 7px;
+  height: 7px;
 }
 
 .card-body {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 24px;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 28px;
+}
+
+.card-eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ember);
 }
 
 .card-name {
-  font-size: 28px;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 36px;
   color: var(--cream);
 }
 
-.card-detail {
-  font-size: 14px;
-  line-height: 21px;
+.card-tagline {
+  max-width: 354px;
+  font-size: 16px;
+  line-height: 24px;
   color: var(--muted);
 }
 
-.price--small .price-amount {
-  font-size: 32px;
-  line-height: 36px;
+.card-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
 }
 
-.price--small .price-from {
+.price--card {
+  gap: 8px;
+}
+
+.price--card .price-from {
   font-size: 18px;
+}
+
+.price--card .price-amount {
+  font-size: 32px;
+  line-height: 34px;
+}
+
+.card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ember);
+  white-space: nowrap;
+}
+
+.card-glare {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  width: 380px;
+  height: 380px;
+  margin: -190px 0 0 -190px;
+  border-radius: 50%;
+  background: radial-gradient(circle closest-side, rgba(255, 236, 210, 0.3), rgba(255, 236, 210, 0));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.card-item.is-hot .card-glare {
+  opacity: 1;
+}
+
+.card-soon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  height: 740px;
+  padding: 36px;
+  border: 1px dashed var(--line);
+  border-radius: 28px;
+  text-align: center;
+}
+
+.card-soon--faded {
+  opacity: 0.55;
+}
+
+.soon-plus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255, 122, 26, 0.13);
+  font-size: 30px;
+  color: var(--ember);
+}
+
+.soon-title {
+  font-size: 30px;
+  line-height: 36px;
+  color: var(--cream);
+}
+
+.soon-text {
+  width: 300px;
+  max-width: 100%;
+  font-size: 15px;
+  line-height: 23px;
+  color: var(--muted);
+}
+
+/* ---------- Accueil : l'atelier ---------- */
+
+.atelier {
+  padding: 40px 0 140px;
+  overflow-x: clip;
+}
+
+.atelier-grid {
+  display: flex;
+  align-items: center;
+  gap: 96px;
+}
+
+.atelier-visual {
+  position: relative;
+  flex: 0 0 560px;
+  height: 520px;
+}
+
+.glow--atelier {
+  left: -70px;
+  top: -90px;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle closest-side, rgba(255, 122, 26, 0.25), rgba(255, 122, 26, 0));
+}
+
+.atelier-photo {
+  position: absolute;
+  left: 9.7px;
+  top: 83.3px;
+  width: 520px;
+  height: 380px;
+  overflow: hidden;
+  border-radius: 26px;
+  box-shadow: 0 40px 70px -12px rgba(0, 0, 0, 0.6);
+  transform: rotate(3deg);
+}
+
+.atelier-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.atelier-text {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 22px;
+  min-width: 0;
+}
+
+.h-atelier {
+  width: 600px;
+  max-width: 100%;
+  font-size: 48px;
+  line-height: 54px;
+  letter-spacing: -0.01em;
+  color: var(--cream);
+}
+
+.atelier-p {
+  width: 580px;
+  max-width: 100%;
+  font-size: 18px;
+  line-height: 30px;
+  color: var(--muted);
+}
+
+.figures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 48px;
+  white-space: nowrap;
+}
+
+.figures li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.figure-value {
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 44px;
+  color: var(--ember);
+}
+
+.figure-label {
+  font-size: 14px;
+  color: var(--muted);
 }
 
 /* ---------- Accueil : étapes ---------- */
@@ -960,6 +1060,8 @@ a {
   aspect-ratio: 720 / 860;
   border-radius: 28px;
   background: var(--surface);
+  view-transition-name: var(--vt, none);
+  view-transition-class: photo;
 }
 
 .gallery-main img {
@@ -1264,13 +1366,34 @@ a {
   display: none;
 }
 
-/* ---------- Animations discrètes (désactivées si prefers-reduced-motion) ---------- */
+/* ---------- Effets de profondeur légers : transform et opacity uniquement ---------- */
+
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-group(root) {
+  animation-duration: 0.35s;
+}
+
+::view-transition-group(*.photo) {
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+::view-transition-old(*.photo),
+::view-transition-new(*.photo) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .js .reveal {
     opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+    transform: perspective(900px) translate3d(0, 40px, 0) rotateX(8deg);
+    transform-origin: 50% 100%;
+    transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
   }
 
   .js .reveal.is-in {
@@ -1284,6 +1407,16 @@ a {
 
   .final .glow {
     animation-name: lueur-centree;
+  }
+
+  .stage-float {
+    animation: flotte 9s ease-in-out infinite alternate;
+  }
+
+  .stack-card,
+  .card-tilt,
+  .gallery-main {
+    transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
   }
 
   @keyframes lueur {
@@ -1307,6 +1440,15 @@ a {
       transform: translateX(-50%) scale(1.04);
     }
   }
+
+  @keyframes flotte {
+    from {
+      transform: translate3d(0, -6px, 0) rotate(-0.4deg);
+    }
+    to {
+      transform: translate3d(0, 8px, 0) rotate(0.4deg);
+    }
+  }
 }
 
 @media print {
@@ -1318,6 +1460,12 @@ a {
 
 /* ---------- Tablette ---------- */
 
+@media (max-width: 1359px) and (min-width: 1181px) {
+  .stage {
+    scale: 0.8;
+  }
+}
+
 @media (max-width: 1180px) and (min-width: 861px) {
   :root {
     --px: 40px;
@@ -1327,9 +1475,28 @@ a {
     gap: 24px;
   }
 
+  .hero {
+    min-height: 760px;
+  }
+
+  .stage {
+    scale: 0.58;
+  }
+
+  .hero-text {
+    padding-top: 190px;
+  }
+
   .hero-title {
-    font-size: 72px;
-    line-height: 78px;
+    width: 480px;
+    font-size: 60px;
+    line-height: 66px;
+  }
+
+  .hero-sub {
+    width: 400px;
+    font-size: 18px;
+    line-height: 28px;
   }
 
   .atouts-box {
@@ -1348,26 +1515,50 @@ a {
     border-top: 1px solid var(--line);
   }
 
-  .moment {
+  .collection {
     padding: 100px 0 90px;
   }
 
-  .moment-grid {
-    gap: 56px;
-  }
-
-  .h-moment {
-    font-size: 52px;
-    line-height: 56px;
-  }
-
-  .h-ambiance {
+  .h-collection {
     font-size: 44px;
     line-height: 50px;
   }
 
-  .mosaic {
-    grid-template-rows: 220px 220px;
+  .card-visual {
+    height: 340px;
+  }
+
+  .card-body {
+    padding: 22px;
+  }
+
+  .card-name {
+    font-size: 26px;
+    line-height: 30px;
+  }
+
+  .card-row {
+    flex-wrap: wrap;
+  }
+
+  .card-soon {
+    height: 560px;
+    padding: 24px;
+  }
+
+  .atelier {
+    padding-bottom: 90px;
+  }
+
+  .atelier-grid {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .h-atelier {
+    font-size: 40px;
+    line-height: 46px;
   }
 
   .step {
@@ -1416,7 +1607,8 @@ a {
     display: block;
   }
 
-  .h-ambiance .line,
+  .hero-title .line,
+  .h-atelier .line,
   .h-final .line {
     display: inline;
   }
@@ -1479,27 +1671,65 @@ a {
     min-height: 760px;
   }
 
-  .hero-photo {
-    bottom: auto;
-    left: 0;
-    height: 520px;
-  }
-
-  .hero-shade {
-    bottom: auto;
-    height: 520px;
-    background: linear-gradient(
-      180deg,
-      rgba(18, 13, 10, 0.55) 0%,
-      rgba(18, 13, 10, 0) 35%,
-      rgba(18, 13, 10, 0.4) 75%,
-      #120d0a 100%
-    );
-  }
-
-  .hero-fade,
   .glow--hero {
-    display: none;
+    left: -65px;
+    top: 20px;
+    width: 520px;
+    height: 520px;
+    background: radial-gradient(circle closest-side, rgba(255, 122, 26, 0.32), rgba(255, 122, 26, 0));
+  }
+
+  .stage {
+    left: 50%;
+    right: auto;
+    top: 0;
+    width: 390px;
+    height: 380px;
+    margin-left: -195px;
+  }
+
+  .stack-card {
+    border: 0;
+    border-radius: 18px;
+    box-shadow: 0 24px 40px -8px rgba(0, 0, 0, 0.6);
+  }
+
+  .stack-card--a {
+    left: 202.6px;
+    top: 129.8px;
+    width: 180px;
+    height: 140px;
+    opacity: 1;
+    --cx: 97.6;
+    --cy: 9.8;
+    --r: -12;
+    --z: 70;
+    z-index: 3;
+  }
+
+  .stack-card--b {
+    left: 2px;
+    top: 205.4px;
+    width: 190px;
+    height: 145px;
+    opacity: 1;
+    --cx: -98;
+    --cy: 87.9;
+    --r: 10;
+    --z: 20;
+    z-index: 2;
+  }
+
+  .stack-card--c {
+    left: 98.3px;
+    top: 74.5px;
+    width: 180px;
+    height: 250px;
+    --cx: -6.7;
+    --cy: 9.5;
+    --r: 3;
+    --z: -50;
+    z-index: 1;
   }
 
   .hero-text {
@@ -1568,103 +1798,141 @@ a {
     line-height: normal;
   }
 
-  /* Pièce du moment */
-  .moment {
+  /* Collection */
+  .collection {
     padding: 48px 0;
   }
 
-  .moment-grid {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 18px;
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
   }
 
-  .moment-visual {
-    flex: none;
-    max-width: none;
-    width: 100%;
-    aspect-ratio: 350 / 440;
-    overflow: hidden;
-    border-radius: 24px;
-  }
-
-  .glow--moment {
+  .card-tilt::before,
+  .card-glare,
+  .card-tag {
     display: none;
   }
 
-  .moment-photo {
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 24px;
+  .card {
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: none;
     box-shadow: none;
   }
 
-  .moment-photo img {
+  .card-visual {
+    height: auto;
+    aspect-ratio: 350 / 440;
     border-radius: 24px;
   }
 
-  .moment-text {
+  .card-body {
     gap: 18px;
+    padding: 18px 0 0;
   }
 
-  .h-moment {
+  .card-eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+  }
+
+  .card-name {
     font-size: 38px;
+    font-weight: 300;
     line-height: 42px;
     letter-spacing: -0.01em;
   }
 
-  .moment-pitch {
-    font-size: 16px;
+  .card-tagline {
+    max-width: none;
     line-height: 25px;
   }
 
-  .moment-actions {
-    width: 100%;
+  .card-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
   }
 
-  /* Ambiance */
-  .ambiance {
+  .price--card {
+    gap: 10px;
+  }
+
+  .price--card .price-from {
+    font-size: 20px;
+  }
+
+  .price--card .price-amount {
+    font-size: 44px;
+    line-height: 46px;
+  }
+
+  .card-cta {
+    justify-content: center;
+    width: 100%;
+    padding: 16px 24px;
+    border-radius: 999px;
+    background: var(--ember);
+    box-shadow: 0 10px 15px rgba(255, 115, 26, 0.35);
+    color: var(--on-ember);
+  }
+
+  /* L'atelier */
+  .atelier {
     padding: 32px 0 48px;
   }
 
-  .ambiance-head {
-    display: block;
-    margin-bottom: 16px;
+  .atelier-grid {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
   }
 
-  .ambiance-head .eyebrow {
-    margin-bottom: 16px;
+  .atelier-text {
+    display: contents;
   }
 
-  .h-ambiance {
+  .atelier-text .eyebrow {
+    order: 1;
+  }
+
+  .h-atelier {
+    order: 2;
+    width: 350px;
     font-size: 32px;
     line-height: 38px;
     letter-spacing: -0.01em;
   }
 
-  .mosaic {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: 240px 150px;
-    gap: 16px 10px;
+  .atelier-visual {
+    order: 3;
+    flex: none;
+    width: 100%;
+    height: auto;
   }
 
-  .tile-1 {
-    grid-column: 1 / span 2;
-    grid-row: 1;
-    border-radius: 20px;
-  }
-
-  .tile-2,
-  .tile-3 {
-    grid-row: 2;
-    border-radius: 16px;
-  }
-
-  .tile::after,
-  .tile-caption {
+  .glow--atelier {
     display: none;
+  }
+
+  .atelier-photo {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: 240px;
+    border-radius: 20px;
+    box-shadow: 0 24px 40px -8px rgba(0, 0, 0, 0.6);
+    transform: none;
+  }
+
+  .atelier-p {
+    order: 4;
+    width: 350px;
+    font-size: 15px;
+    line-height: 24px;
   }
 
   /* Étapes */
@@ -2001,5 +2269,23 @@ a {
   .thumb,
   .buybar {
     transition: none;
+  }
+
+  .js .reveal {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .js .reveal.is-in {
+    opacity: 1;
+  }
+
+  .card-visual,
+  .gallery-main {
+    view-transition-name: none;
+  }
+
+  ::view-transition-group(root) {
+    animation-duration: 0.2s;
   }
 }

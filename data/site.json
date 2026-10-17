@@ -1,76 +1,98 @@
 {
   "name": "Meltro Studio",
-  "title": "Meltro Studio — Citrouille lumineuse et décorations d'automne",
-  "description": "Meltro Studio, objets décoratifs fabriqués en France par un particulier : citrouille lumineuse d'Halloween 36 cm, pour l'intérieur comme pour l'extérieur, petites séries finies à la main. Achat sur Etsy ou Leboncoin.",
+  "title": "Meltro Studio — Objets de décoration conçus en Savoie",
+  "description": "Meltro Studio conçoit et fabrique en Savoie des objets de décoration originaux, en petites séries. Collection d'automne : citrouille lumineuse d'Halloween 36 cm. Achat sur Etsy ou Leboncoin.",
+  "baseUrl": "https://pockemon.github.io/meltro-studio",
+  "customDomain": "",
   "etsyShopUrl": "https://www.etsy.com/shop/MeltroStudio",
   "leboncoinShopUrl": "",
   "nav": {
     "collection": "La collection",
-    "commander": "Comment commander",
     "atelier": "L’atelier",
+    "commander": "Comment commander",
     "etsyDesktop": "Boutique Etsy",
     "etsyMobile": "Etsy"
   },
   "hero": {
-    "eyebrow": { "d": "Collection d’automne · Petites séries", "m": "Collection d’automne" },
-    "titleLine1": "Une lueur d’automne,",
-    "titleLine2": "faite à la main.",
+    "eyebrow": "Objets de décoration · Savoie",
+    "titleLine1": "Des objets",
+    "titleLine2": "qui ",
+    "titleEmphasis": "font de l’effet.",
     "subtitle": {
-      "d": "Des pièces décoratives dessinées et fabriquées en Savoie, en petites séries. Allumez-les : l’ambiance fait le reste.",
-      "m": "Pièces décoratives faites main en Savoie, en petites séries."
+      "d": "Meltro Studio conçoit et fabrique en Savoie des objets de décoration originaux, en petites séries. Des pièces pensées pour être remarquées.",
+      "m": "Meltro Studio conçoit et fabrique en Savoie des objets de décoration originaux, en petites séries."
     },
-    "primaryCta": "Découvrir la citrouille  →",
-    "etsyCta": "Voir sur Etsy",
-    "guarantees": ["Fait main en France", "Expédiée sous 1 à 2 jours", "Main propre en Savoie"]
+    "primaryCta": "Voir la collection  →",
+    "etsyCta": "Boutique Etsy",
+    "guarantees": ["Conçu en Savoie", "Petites séries", "Expédié sous 1 à 2 jours"],
+    "stack": { "product": "citrouille-36", "images": [3, 4, 0] }
   },
   "atouts": [
     {
       "icon": "main",
-      "title": { "d": "Fait main", "m": "Fait main" },
-      "text": { "d": "Dessinée et fabriquée en Savoie, pièce par pièce.", "m": "En Savoie, pièce par pièce" }
+      "title": "Conçu en Savoie",
+      "text": { "d": "Dessinées à l’atelier, fabriquées en Savoie.", "m": "Dessins originaux" }
     },
     {
       "icon": "lumiere",
-      "title": { "d": "Lumière sans flamme", "m": "Sans flamme" },
-      "text": { "d": "Guirlande LED blanc chaud à piles, fournie.", "m": "LED à piles fournie" }
+      "title": "Petites séries",
+      "text": { "d": "Chaque modèle existe en quantité limitée.", "m": "Quantités limitées" }
     },
     {
       "icon": "pluie",
-      "title": { "d": "Dedans comme dehors", "m": "Dehors aussi" },
-      "text": { "d": "Matière solide, guirlande qui résiste à la pluie.", "m": "Résiste à la pluie" }
+      "title": "Matières solides",
+      "text": { "d": "Légères, résistantes, pensées pour durer.", "m": "Pensées pour durer" }
     },
     {
       "icon": "bouclier",
-      "title": { "d": "Achat serein", "m": "Achat serein" },
+      "title": "Achat serein",
       "text": { "d": "Paiement sécurisé Etsy, ou main propre via Leboncoin.", "m": "Etsy ou main propre" }
     }
   ],
-  "moment": {
-    "eyebrow": "La pièce du moment",
-    "note": "Même pièce sur Etsy et Leboncoin · frais de port selon la plateforme",
-    "primaryCta": "Voir la pièce  →",
-    "etsyCta": "Acheter sur Etsy"
-  },
-  "ambiance": {
-    "eyebrow": "Dans la lumière",
-    "titleLine1": "Dedans comme dehors,",
-    "titleLine2": "elle installe l’ambiance.",
-    "text": "Lumière chaude, sans flamme : on la laisse allumée toute la soirée, même avec les enfants autour."
-  },
   "collection": {
     "eyebrow": "La collection",
-    "title": "Toutes les pièces",
-    "cta": "Voir la pièce  →"
+    "title": "Nos pièces du moment",
+    "text": "Chaque pièce est disponible sur Etsy et sur Leboncoin. Les séries sont courtes : quand c’est parti, c’est parti.",
+    "cardEyebrowMobile": "La collection",
+    "cardCta": "Voir la pièce  →",
+    "columns": 3,
+    "soon": [
+      {
+        "title": ["Prochaine pièce", "en préparation"],
+        "text": "Suivez la boutique sur Etsy pour la voir en premier.",
+        "cta": "Suivre sur Etsy"
+      },
+      {
+        "title": ["Et d’autres", "idées à venir"],
+        "text": "Suivez la boutique sur Etsy pour la voir en premier.",
+        "cta": "Suivre sur Etsy"
+      }
+    ]
+  },
+  "atelier": {
+    "eyebrow": "L’atelier",
+    "titleLine1": "Conçues en Savoie,",
+    "titleLine2": "fabriquées en petites séries.",
+    "text": {
+      "d": "Chaque objet Meltro naît d’un dessin original à l’atelier, près d’Aix-les-Bains. Nous le fabriquons ensuite en petites quantités, avec des matières légères et résistantes, puis nous le vérifions et l’emballons avec soin avant de l’expédier.",
+      "m": "Chaque objet naît d’un dessin original à l’atelier, près d’Aix-les-Bains, puis il est fabriqué en petite quantité avec des matières légères et résistantes."
+    },
+    "photo": { "product": "citrouille-36", "image": 3 },
+    "figures": [
+      { "value": "100 %", "label": "dessins originaux" },
+      { "value": "1 à 2 j", "label": "pour expédier" },
+      { "value": "2", "label": "façons de commander" }
+    ]
   },
   "steps": {
     "eyebrow": "Comment commander",
-    "title": "Trois étapes, et elle est chez vous.",
+    "title": "Trois étapes, et c’est chez vous.",
     "items": [
       {
         "title": "Choisissez votre pièce",
         "text": {
-          "d": "Toutes nos pièces sont fabriquées à la main, en petites séries.",
-          "m": "Fabriquée à la main, en petite série."
+          "d": "Chaque modèle est conçu à l’atelier et produit en petite série.",
+          "m": "Conçue à l’atelier, produite en petite série."
         }
       },
       {
@@ -81,19 +103,16 @@
         }
       },
       {
-        "title": "Allumez, c’est prêt",
-        "text": {
-          "d": "Glissez la guirlande, refermez le couvercle. L’ambiance est là.",
-          "m": "Glissez la guirlande, refermez le couvercle."
-        }
+        "title": "Déballez, posez, profitez",
+        "text": "Votre pièce arrive emballée avec soin, prête à poser."
       }
     ]
   },
   "finalHome": {
-    "eyebrow": "Petites séries",
-    "titleLine1": "Quand la série est partie,",
-    "titleLine2": "elle est partie.",
-    "cta": "Découvrir la citrouille  →"
+    "eyebrow": "Nouvelles pièces bientôt",
+    "titleLine1": "Trouvez la pièce qui manque",
+    "titleLine2": "à votre intérieur.",
+    "cta": "Voir la collection  →"
   },
   "product": {
     "breadcrumbRoot": "La collection",
@@ -106,7 +125,7 @@
       "m": "Envoi ou main propre en Savoie"
     },
     "priceNote": "Prix et frais de port selon la plateforme.",
-    "reassurance": ["Fait main en Savoie", "Expédiée sous 1 à 2 jours", "Petite série"],
+    "reassurance": ["Conçue en Savoie", "Expédiée sous 1 à 2 jours", "Petite série"],
     "storyEyebrow": "L’histoire de la pièce",
     "detailsTitle": "Dans le détail",
     "faqTitle": "Questions fréquentes",
@@ -119,7 +138,7 @@
     "stickyCta": "Commander  →"
   },
   "footer": {
-    "tagline": "Objets décoratifs faits main en Savoie · Vente par un particulier",
+    "tagline": "Objets de décoration conçus en Savoie · Vente par un particulier",
     "etsy": "Boutique Etsy",
     "leboncoin": "Leboncoin",
     "contact": "Contact via Etsy ou Leboncoin"

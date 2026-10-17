@@ -1,8 +1,8 @@
 # Meltro Studio
 
-Boutique vitrine statique des objets décoratifs de Meltro Studio (vendeur particulier), thème « Meltro Nuit ». Pas de panier ni de paiement : chaque pièce renvoie vers Etsy (achat) et, si l'URL est renseignée, vers Leboncoin.
+Site vitrine statique de la marque Meltro Studio (objets de décoration conçus en Savoie, vendus par un particulier), thème « Meltro Nuit ». L'accueil présente la marque et la collection ; pas de panier ni de paiement : chaque pièce renvoie vers Etsy (achat) et, si l'URL est renseignée, vers Leboncoin.
 
-Aucune dépendance npm, pas de cookies, pas d'analytics. Node 20 suffit. Le seul JavaScript côté client est un petit script inline d'amélioration progressive (galerie, barre d'achat mobile, apparition au défilement) : sans JS, tout reste lisible et cliquable.
+Aucune dépendance npm, pas de cookies, pas d'analytics. Node 20 suffit. Le seul JavaScript côté client est un petit script inline d'amélioration progressive (galerie, barre d'achat mobile, apparition au défilement, effets de profondeur) : sans JS, tout reste lisible et cliquable.
 
 ## Commandes
 
@@ -18,10 +18,10 @@ Pour prévisualiser : `python3 -m http.server --directory dist` (ou tout autre s
 | Chemin | Rôle |
 | --- | --- |
 | `data/products.json` | Source unique des produits (une entrée = une fiche + une place sur l'accueil). |
-| `data/site.json` | Textes du site : navigation, hero, atouts, étapes, appels à l'action, pied de page, titre et description SEO. |
+| `data/site.json` | Textes du site : navigation, hero (et sa pile de photos), atouts, collection, atelier, étapes, appels à l'action, pied de page, titre et description SEO, `baseUrl` et `customDomain`. |
 | `src/styles.css` | Feuille de styles « Meltro Nuit », copiée dans `dist/styles.css`. |
 | `public/` | Fichiers copiés tels quels dans `dist/` (images, favicon). |
-| `build.mjs` | Génère `dist/index.html`, une page `dist/<slug>/index.html` par produit, `styles.css`, `sitemap.xml`, `robots.txt`, `.nojekyll`, et copie `public/`. |
+| `build.mjs` | Génère `dist/index.html`, une page `dist/<slug>/index.html` par produit, `styles.css`, `sitemap.xml`, `robots.txt`, `.nojekyll` (et `CNAME` si `customDomain` est renseigné), et copie `public/`. |
 | `check.mjs` | Vérifie les données et `dist/` (voir plus bas). |
 
 `dist/` est généré et n'est pas versionné.
@@ -30,11 +30,35 @@ Pour prévisualiser : `python3 -m http.server --directory dist` (ou tout autre s
 
 Le design suit le fichier Figma `oEmQewpeqRKrtyZNulXtjm`, page « 03 — Site v2 » : Accueil Desktop (1440 px), Fiche produit Desktop, Accueil Mobile (390 px), Fiche produit Mobile. Les variables de la collection « Meltro Nuit » sont les propriétés CSS de `:root` (`--bg`, `--surface`, `--surface-2`, `--line`, `--text`, `--text-muted` → `--muted`, `--ember`, `--ember-deep`, `--gold`, `--on-ember`, `--cream`). Polices : Fraunces (300, 300 italique, 400, 400 italique) pour les titres et prix, DM Sans (400, 500, 600) pour le texte, chargées depuis Google Fonts avec repli `serif` / `sans-serif`.
 
+L'accueil est une vitrine de marque : hero (accroche, boutons « Voir la collection » et « Boutique Etsy », pile de trois photos en perspective), quatre atouts, « La collection » (`#collection`), « L'atelier » (`#atelier`), trois étapes « Comment commander » (`#commander`) et appel final. Les textes viennent de `data/site.json`. Les textes propres à une pièce (lueur, histoire, ambiance de la citrouille) ne figurent que sur sa fiche.
+
 Sous 860 px, la mise en page « mobile » des frames Figma s'applique (textes plus courts, éléments masqués) ; entre 861 et 1180 px, la mise en page bureau s'adapte (atouts en 2 × 2, marges réduites).
+
+## Effets de profondeur
+
+Tout est en CSS (`transform` et `opacity` uniquement) plus un petit script inline sans bibliothèque :
+
+- hero : pile de trois cartes avec une vraie perspective (1200 px), flottement lent au repos et parallaxe au pointeur (±8°) ;
+- cartes de la collection : inclinaison ±10° au pointeur, reflet radial qui suit le pointeur et ombre ambre ;
+- apparition au défilement avec une légère rotation `rotateX` (8° → 0) et un décalage ;
+- fiche : la photo principale s'incline légèrement sous le pointeur ;
+- transitions de page entre accueil et fiche (View Transitions inter-documents, `@view-transition { navigation: auto; }`) : la photo de la carte et la photo principale de la fiche partagent le même `view-transition-name` (`photo-<slug>`), le reste fait un fondu. Les navigateurs sans cette API naviguent normalement.
+
+Avec `prefers-reduced-motion: reduce`, il ne reste qu'un simple fondu (ni inclinaison, ni flottement, ni transition partagée). Les inclinaisons ne s'appliquent pas aux écrans tactiles (`pointer: coarse`).
+
+## Nom de domaine (préparé, non activé)
+
+`data/site.json` contient `baseUrl` (adresse publique utilisée pour `canonical`, `og:*`, JSON-LD, sitemap et robots) et `customDomain` (vide pour l'instant). Pour passer sur un domaine personnalisé :
+
+1. renseigner le domaine côté DNS (CNAME vers `pockemon.github.io`) puis dans Settings > Pages > Custom domain ;
+2. mettre `customDomain` à `www.exemple.fr` et `baseUrl` à `https://www.exemple.fr` dans `data/site.json` ;
+3. relancer `node build.mjs && node check.mjs` : `dist/CNAME` est alors écrit et toutes les URL absolues suivent. Les chemins du HTML sont relatifs, rien d'autre à changer.
+
+Tant que `customDomain` est vide, aucun fichier `CNAME` n'est produit.
 
 ## Ajouter un produit
 
-Il suffit d'ajouter une entrée dans `data/products.json` et de déposer ses images dans `public/images/`. Rien d'autre à modifier : la fiche `/<slug>/`, sa carte dans la grille « La collection » (affichée dès qu'il y a au moins deux produits, masquée tant qu'il n'y en a qu'un), le balisage JSON-LD, le sitemap et les liens de l'accueil sont générés.
+Il suffit d'ajouter une entrée dans `data/products.json` et de déposer ses images dans `public/images/`. Rien d'autre à modifier : la fiche `/<slug>/`, sa carte cliquable dans « La collection » (toujours affichée ; la grille est complétée jusqu'à `collection.columns` places par des cartes « Prochaine pièce en préparation » tirées de `collection.soon`), le balisage JSON-LD, le sitemap et les liens de l'accueil sont générés.
 
 ```json
 {
@@ -51,20 +75,16 @@ Il suffit d'ajouter une entrée dans `data/products.json` et de déposer ses ima
   "etsyUrl": "https://www.etsy.com/fr/listing/...",
   "leboncoinUrl": "",
   "tagline": "Phrase d'accroche sous le titre de la fiche.",
-  "pitch": "Texte de la « pièce du moment » sur l'accueil.",
-  "highlights": ["36 × 36 cm", "Guirlande fournie"],
+  "cardTagline": "Phrase courte sur la carte de l'accueil.",
   "quote": "Citation du bandeau nuit.",
   "story": "Histoire de la pièce (bandeau nuit, bureau).",
   "specs": [{ "label": "Dimensions", "value": "36 × 36 cm" }],
   "faq": [{ "q": "Question ?", "a": "Réponse." }],
-  "heroImage": 2,
-  "heroImageMobile": 0,
   "nightImage": 2,
   "galleryImages": [0, 1, 2],
-  "moodImages": [2, 1, 0],
   "detailImages": [0, 1, 2],
   "images": [
-    { "src": "images/lampe-nuage-1.jpg", "alt": "Description de la photo", "caption": "Légende de la mosaïque", "detailCaption": "Légende « Dans le détail »" }
+    { "src": "images/lampe-nuage-1.jpg", "alt": "Description de la photo", "detailCaption": "Légende « Dans le détail »" }
   ]
 }
 ```
@@ -72,23 +92,26 @@ Il suffit d'ajouter une entrée dans `data/products.json` et de déposer ses ima
 - `id` et `slug` : minuscules, chiffres et tirets, uniques. `slug` (par défaut `id`) donne l'adresse de la fiche : `/<slug>/`.
 - `priceFrom` : nombre, prix « à partir de » affiché sous la forme « dès 49 € » (le plus bas des prix pratiqués, ici celui de Leboncoin). Le prix Etsy n'est jamais affiché car il varie avec les promotions ; la fiche précise « Prix et frais de port selon la plateforme. ». C'est aussi le `price` de l'offre JSON-LD, dont l'`url` est `leboncoinUrl` (ou `etsyUrl` si elle est vide).
 - `leboncoinUrl` : laisser vide (`""`) tant qu'il n'y a pas d'annonce, le bouton « Voir sur Leboncoin » n'est alors pas affiché.
-- `featured` : le premier produit `featured` (à défaut, le premier de la liste) est la « pièce du moment » et l'image du hero de l'accueil.
+- `featured` : le premier produit `featured` (à défaut, le premier de la liste) fournit l'image de partage (`og:image`) de l'accueil.
+- `cardTagline` : phrase de la carte sur l'accueil (à défaut, `tagline`). La carte affiche aussi le badge, la collection, le nom, « dès » + `priceFrom` et « Voir la pièce → », et toute la carte est cliquable.
+- Textes de marque : conçu en Savoie, fabriqué en petite série. Ne jamais écrire « fait main », « faite à la main », « finie à la main » ni « artisanal » : `check.mjs` échoue.
 - `badge` + `collection` : l'étiquette « Édition limitée » sur la photo et la ligne « Halloween · Édition limitée » au-dessus du titre.
-- Textes à deux versions : `tagline`, `pitch`, la valeur d'une ligne de `specs` et la réponse d'une entrée de `faq` peuvent être une chaîne, ou `{ "d": "texte bureau", "m": "texte mobile" }` quand la maquette mobile en dit moins. Une entrée de `faq` avec `"mobile": false` n'apparaît que sur bureau.
-- `images` : chemins relatifs à `public/`, dans l'ordre. Les index (`heroImage`, `heroImageMobile`, `nightImage`, `galleryImages`, `moodImages`, `detailImages`) commencent à 0 et pointent dans cette liste : hero de l'accueil (bureau / mobile), bandeau nuit de la fiche, vignettes de la galerie (la première est la photo principale), mosaïque « Dans la lumière », photos « Dans le détail ». Chaque `alt` doit être descriptif.
+- Textes à deux versions : `tagline`, la valeur d'une ligne de `specs` et la réponse d'une entrée de `faq` peuvent être une chaîne, ou `{ "d": "texte bureau", "m": "texte mobile" }` quand la maquette mobile en dit moins. Une entrée de `faq` avec `"mobile": false` n'apparaît que sur bureau.
+- `images` : chemins relatifs à `public/`, dans l'ordre. Les index (`nightImage`, `galleryImages`, `detailImages`) commencent à 0 et pointent dans cette liste : bandeau nuit de la fiche, vignettes de la galerie (la première est la photo principale), photos « Dans le détail ». Le hero et « L'atelier » de l'accueil choisissent leurs photos dans `data/site.json` (`hero.stack`, `atelier.photo` : `{ "product": "id", "image": index }`). Chaque `alt` doit être descriptif.
 - Les dimensions (`width`/`height`) sont lues dans les fichiers au moment du build (JPEG, PNG ou WebP). Redimensionner les photos à 1600 px maximum avant de les ajouter.
 
 ## Ce que vérifie `check.mjs`
 
-- données : chaque produit a un `id` et un `slug` valides et uniques, un nom, un `priceFrom`, une `etsyUrl` valide, ses textes de fiche (`tagline`, `pitch`, `quote`, `story`, `specs`, `faq`, `highlights`) et des images existantes dont les index sont cohérents ;
+- données : chaque produit a un `id` et un `slug` valides et uniques, un nom, un `priceFrom`, une `etsyUrl` valide, ses textes de fiche (`tagline`, `cardTagline`, `quote`, `story`, `specs`, `faq`) et des images existantes dont les index sont cohérents ;
 - `dist/` contient `index.html`, `styles.css`, `sitemap.xml`, `robots.txt`, `.nojekyll` et la page `<slug>/index.html` de chaque produit ;
-- chaque page : `lang="fr"`, `<title>`, meta description, un seul `<h1>`, `canonical`, `og:url`, `og:image` en URL absolue `BASE_URL` existante, aucun chemin commençant par `/`, un seul script inline de moins de 4 000 caractères (sans réseau ni stockage) en plus du JSON-LD, chaque image avec `alt`, `width`, `height` et fichier présent, une seule image prioritaire non `lazy`, tout lien externe en `target="_blank" rel="noopener"` ;
+- chaque page : `lang="fr"`, `<title>`, meta description, un seul `<h1>`, `canonical`, `og:url`, `og:image` en URL absolue `BASE_URL` existante, aucun chemin commençant par `/`, un seul script inline de moins de 6 000 caractères (sans réseau ni stockage) en plus du JSON-LD, chaque image avec `alt`, `width`, `height` et fichier présent, une seule image prioritaire non `lazy`, tout lien externe en `target="_blank" rel="noopener"` ;
 - aucun prix autre que `priceFrom` n'est affiché (le prix Etsy ne doit jamais apparaître) ;
-- accueil : JSON-LD `WebSite` et `Organization`, lien vers la fiche de chaque produit, grille « collection » absente avec un seul produit ;
+- domaine : `baseUrl` valide, `dist/CNAME` présent si et seulement si `customDomain` est renseigné ;
+- accueil : JSON-LD `WebSite` et `Organization`, une carte cliquable par produit plus les cartes « en préparation » pour compléter la grille, trois cartes dans le hero, navigation et ancres (`#collection`, `#atelier`, `#commander`), textes issus de Figma, absence de « pièce du moment » et de mosaïque ;
 - fiche : boutons Etsy et Leboncoin vers les bonnes URL (Leboncoin absent si l'URL est vide), « dès 69 € », mention « Prix et frais de port selon la plateforme. », JSON-LD `Product` avec un seul `Offer` (`priceFrom`, EUR, InStock, `leboncoinUrl` ou à défaut `etsyUrl`), galerie, barre d'achat mobile, FAQ ;
 - `sitemap.xml` liste l'accueil et toutes les fiches, `robots.txt` pointe vers le sitemap de `BASE_URL` ;
-- `styles.css` : les 11 variables Figma, focus visible, animations limitées à `prefers-reduced-motion: no-preference`, contrastes texte/fond ≥ 4,5 (AA) ;
-- aucun mot interdit (« 3D », « impression », « imprimé », « imprimante », insensible à la casse et aux accents) dans les fichiers texte de `dist/`, et « Même prix » absent.
+- `styles.css` : les 11 variables Figma, focus visible, animations et transitions limitées à `prefers-reduced-motion: no-preference`, `@view-transition`, contrastes texte/fond ≥ 4,5 (AA) ;
+- aucun mot interdit (« 3D », « impression », « imprimé », « imprimante », insensible à la casse et aux accents) dans les fichiers texte de `dist/` et dans `data/`, « Même prix » absent, et aucune mention « fait main » / « faite à la main » / « finie à la main » / « artisanal ».
 
 Le script se termine avec le code 1 au moindre échec. Il est lancé après le build par la CI (`.github/workflows/ci.yml`) et par le workflow de déploiement.
 
@@ -98,6 +121,6 @@ Le site est servi sous `https://pockemon.github.io/meltro-studio/`.
 
 - `.github/workflows/pages.yml` : sur push vers `main` (et manuellement via `workflow_dispatch`), lance `node build.mjs` et `node check.mjs`, puis déploie `dist/` avec `actions/configure-pages`, `actions/upload-pages-artifact` et `actions/deploy-pages` (environnement `github-pages`).
 - À activer une fois dans le dépôt : Settings > Pages > Source : **GitHub Actions**.
-- Le HTML n'utilise que des chemins relatifs (`styles.css`, `images/...`, `./`, et `../` depuis les fiches), ce qui fonctionne sous le sous-chemin `/meltro-studio/`. La constante `BASE_URL` de `build.mjs` ne sert qu'aux URL absolues : `canonical`, `og:url`, `og:image`, JSON-LD, `sitemap.xml` et `robots.txt`. `check.mjs` échoue si un chemin commence par `/` ou si ces URL ne commencent pas par `BASE_URL`.
+- Le HTML n'utilise que des chemins relatifs (`styles.css`, `images/...`, `./`, et `../` depuis les fiches), ce qui fonctionne sous le sous-chemin `/meltro-studio/`. `baseUrl` (`data/site.json`) ne sert qu'aux URL absolues : `canonical`, `og:url`, `og:image`, JSON-LD, `sitemap.xml` et `robots.txt`. `check.mjs` échoue si un chemin commence par `/` ou si ces URL ne commencent pas par `BASE_URL`.
 - `dist/.nojekyll` est créé par le build pour que GitHub Pages serve les fichiers tels quels.
-- Pour changer de domaine, modifier `BASE_URL` dans `build.mjs` (et la constante du même nom dans `check.mjs`).
+- Pour changer de domaine, voir « Nom de domaine » plus haut : `baseUrl` et `customDomain` dans `data/site.json`.

@@ -8,9 +8,9 @@ const ROOT = dirname(fileURLToPath(import.meta.url));
 const DIST = join(ROOT, 'dist');
 const PUBLIC_DIR = join(ROOT, 'public');
 
-// Le site est servi sous un sous-chemin (GitHub Pages) : le HTML n'utilise que des chemins relatifs,
-// BASE_URL ne sert qu'aux URL absolues (canonical, Open Graph, JSON-LD, sitemap, robots.txt).
-const BASE_URL = 'https://pockemon.github.io/meltro-studio';
+// Le site est servi sous un sous-chemin (GitHub Pages) : le HTML n'utilise que des chemins relatifs.
+// BASE_URL (data/site.json › baseUrl) ne sert qu'aux URL absolues : canonical, Open Graph, JSON-LD, sitemap, robots.txt.
+let BASE_URL = '';
 
 const FONTS_URL =
   'https://fonts.googleapis.com/css2' +
@@ -125,17 +125,20 @@ function loadProducts() {
       slug,
       images,
       main: images[index(p.galleryImages?.[0])],
-      hero: images[index(p.heroImage)],
-      heroMobile: images[index(p.heroImageMobile, index(p.galleryImages?.[0]))],
-      night: images[index(p.nightImage, index(p.heroImage))],
+      night: images[index(p.nightImage, index(p.galleryImages?.[0]))],
       gallery: pick(p.galleryImages, all),
-      mood: pick(p.moodImages, all.slice(0, 3)),
       details: pick(p.detailImages, all.slice(0, 3)),
     };
   });
 }
 
 const featuredOf = (products) => products.find((p) => p.featured) ?? products[0];
+
+// Image d'un produit désignée dans site.json : { product: id, image: index } (repli : premier produit, première image).
+function pickImage(products, ref, fallbackIndex = 0) {
+  const p = products.find((x) => x.id === ref?.product) ?? products[0];
+  return p.images[Number.isInteger(ref?.image) && p.images[ref.image] ? ref.image : fallbackIndex] ?? p.images[0];
+}
 
 const formatPrice = (value) => new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 2 }).format(value);
 const priceAmount = (p) => `${formatPrice(p.priceFrom)}${NBSP}${CURRENCY_SYMBOLS[p.currency ?? 'EUR'] ?? p.currency}`;
@@ -169,19 +172,21 @@ const imgTag = (image, root, { cls = '', eager = false, priority = false } = {})
     eager ? (priority ? ' fetchpriority="high"' : '') : ' loading="lazy"'
   } decoding="async">`;
 
-const priceBlock = (p, cls = '') =>
-  `<p class="price${cls ? ` ${cls}` : ''}"><span class="price-from">dès</span> <span class="price-amount">${esc(priceAmount(p))}</span></p>`;
+const priceBlock = (p, cls = '', tag = 'p') =>
+  `<${tag} class="price${cls ? ` ${cls}` : ''}"><span class="price-from">dès</span> <span class="price-amount">${esc(priceAmount(p))}</span></${tag}>`;
 
-function header(site, { root, overlay, collectionId }) {
+const vtName = (p) => `photo-${p.slug}`;
+
+function header(site, { root, overlay }) {
   const n = site.nav;
   return `
   <header class="nav${overlay ? ' nav--overlay' : ''}">
     <div class="nav-inner">
       <a class="logo" href="${root || './'}" aria-label="${esc(site.name)}, accueil"><span class="dot-logo" aria-hidden="true"></span><span class="logo-name serif">${esc(site.name)}</span></a>
       <nav class="nav-links" aria-label="Navigation principale">
-        <a class="nav-link" href="${root}#${collectionId}">${esc(n.collection)}</a>
-        <a class="nav-link" href="${root}#commander">${esc(n.commander)}</a>
+        <a class="nav-link" href="${root}#collection">${esc(n.collection)}</a>
         <a class="nav-link" href="${root}#atelier">${esc(n.atelier)}</a>
+        <a class="nav-link" href="${root}#commander">${esc(n.commander)}</a>
         ${site.etsyShopUrl ? extLink(site.etsyShopUrl, 'btn btn-outline btn-nav', `<span class="d-only">${esc(n.etsyDesktop)}</span><span class="m-only">${esc(n.etsyMobile)}</span>`) : ''}
       </nav>
     </div>
@@ -192,7 +197,7 @@ function footer(site, products) {
   const f = site.footer;
   const lbc = leboncoinOf(site, products);
   return `
-  <footer class="footer" id="atelier">
+  <footer class="footer">
     <div class="footer-inner">
       <div class="footer-left">
         <p class="footer-brand serif">${esc(site.name)}</p>
@@ -255,7 +260,15 @@ ${ld.map((x) => `  <script type="application/ld+json">${jsonLd(x)}</script>`).jo
 }
 
 // Amélioration progressive uniquement : sans JS, tout reste lisible et cliquable.
-const INLINE_SCRIPT = `(function(){var d=document;d.documentElement.classList.add('js');d.addEventListener('DOMContentLoaded',function(){
+// Effets de profondeur : transform et opacity seulement, coupés en « réduire les animations » et sur écran tactile.
+const INLINE_SCRIPT = `(function(){var d=document,rm=matchMedia('(prefers-reduced-motion: reduce)'),co=matchMedia('(pointer: coarse)');d.documentElement.classList.add('js');
+function fx(){return!rm.matches&&!co.matches}
+function tilt(host,max,go,stop){if(!host)return;var ev=0,raf=0;
+function paint(){raf=0;if(!ev)return;var b=host.getBoundingClientRect(),x=(ev.clientX-b.left)/b.width,y=(ev.clientY-b.top)/b.height;go((y-.5)*2*max,(.5-x)*2*max,x*b.width,y*b.height);}
+host.addEventListener('pointermove',function(e){if(e.pointerType==='touch'||!fx())return;ev=e;if(!raf)raf=requestAnimationFrame(paint);});
+host.addEventListener('pointerleave',function(){ev=0;stop();});}
+function put(el,rx,ry,per){el.style.transform='perspective('+per+'px) rotateX('+rx.toFixed(2)+'deg) rotateY('+ry.toFixed(2)+'deg)';}
+d.addEventListener('DOMContentLoaded',function(){
 var main=d.getElementById('galerie-principale'),thumbs=d.querySelectorAll('[data-thumb]');
 thumbs.forEach(function(a){a.addEventListener('click',function(e){if(!main)return;e.preventDefault();
 main.src=a.getAttribute('data-src');main.alt=a.getAttribute('data-alt');main.width=+a.getAttribute('data-w');main.height=+a.getAttribute('data-h');
@@ -264,6 +277,12 @@ var bar=d.getElementById('barre-achat'),anchor=d.getElementById('achat'),io='Int
 if(bar&&anchor&&io){new IntersectionObserver(function(es){es.forEach(function(e){bar.classList.toggle('is-visible',!e.isIntersecting&&e.boundingClientRect.top<0);});}).observe(anchor);}
 var rv=d.querySelectorAll('.reveal');
 if(!io){rv.forEach(function(el){el.classList.add('is-in');});}else{var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('is-in');o.unobserve(e.target);}});},{rootMargin:'0px 0px -8% 0px'});rv.forEach(function(el){o.observe(el);});}
+var hero=d.querySelector('.hero'),st=hero&&hero.querySelector('.stage');
+if(st)tilt(hero,8,function(rx,ry){st.style.setProperty('--rx',rx.toFixed(2)+'deg');st.style.setProperty('--ry',ry.toFixed(2)+'deg');},function(){st.style.removeProperty('--rx');st.style.removeProperty('--ry');});
+d.querySelectorAll('.card-item').forEach(function(c){var t=c.querySelector('.card-tilt'),g=c.querySelector('.card-glare');if(!t||!g)return;
+tilt(c,10,function(rx,ry,x,y){put(t,rx,ry,900);g.style.transform='translate('+x.toFixed(0)+'px,'+y.toFixed(0)+'px)';c.classList.add('is-hot');},function(){t.style.transform='';c.classList.remove('is-hot');});});
+var gs=d.querySelector('.gallery-stage'),gm=gs&&gs.firstElementChild;
+if(gm)tilt(gs,4,function(rx,ry){put(gm,rx,ry,1400);},function(){gm.style.transform='';});
 });})();`;
 
 // ---------------------------------------------------------------------------
@@ -271,18 +290,21 @@ if(!io){rv.forEach(function(el){el.classList.add('is-in');});}else{var o=new Int
 // ---------------------------------------------------------------------------
 function renderHome(products, site) {
   const feat = featuredOf(products);
-  const many = products.length > 1;
-  const collectionId = many ? 'collection' : 'piece';
   const h = site.hero;
-  const m = site.moment;
-  const a = site.ambiance;
+  const c = site.collection;
+  const at = site.atelier;
   const root = '';
-  const productHref = `${productPath(feat)}`;
+  const etsyShop = site.etsyShopUrl;
 
-  const heroPicture = `<picture>
-          <source media="(max-width: 860px)" srcset="${esc(feat.heroMobile.src)}" width="${feat.heroMobile.width}" height="${feat.heroMobile.height}">
-          ${imgTag(feat.hero, root, { eager: true, priority: true })}
-        </picture>`;
+  const stackImages = (h.stack?.images ?? [3, 4, 0]).map((n) => pickImage(products, { product: h.stack?.product, image: n }));
+  const STACK_CLASSES = ['stack-card--a', 'stack-card--b', 'stack-card--c'];
+  const stack = stackImages
+    .slice(0, 3)
+    .map(
+      (img, i) => `
+          <div class="stack-card ${STACK_CLASSES[i]}">${imgTag(img, root, { eager: true, priority: i === 2 })}</div>`,
+    )
+    .join('');
 
   const atouts = site.atouts
     .map(
@@ -297,54 +319,68 @@ function renderHome(products, site) {
     )
     .join('');
 
-  const mood = feat.mood
+  const cards = products
     .map(
-      (img, i) => `
-          <figure class="tile tile-${i + 1} reveal">
-            ${imgTag(img, root)}
-            <figcaption class="tile-caption serif">${esc(img.caption ?? '')}</figcaption>
-          </figure>`,
+      (p) => `
+          <li class="card-item reveal">
+            <div class="card-tilt">
+              <a class="card" href="${productPath(p)}">
+                <span class="card-visual" style="--vt:${vtName(p)}">
+                  ${imgTag(p.main, root, { cls: 'card-photo' })}
+                  ${p.badge ? `<span class="tag card-tag"><span class="dot-tag" aria-hidden="true"></span>${esc(p.badge)}</span>` : ''}
+                </span>
+                <span class="card-body">
+                  <span class="card-eyebrow">${dm({ d: p.collection ?? '', m: c.cardEyebrowMobile })}</span>
+                  <span class="card-name serif">${esc(p.name)}</span>
+                  <span class="card-tagline">${esc(p.cardTagline ?? plain(p.tagline) ?? '')}</span>
+                  <span class="card-row">
+                    ${priceBlock(p, 'price--card', 'span')}
+                    <span class="card-cta">${CTA_ARROW(c.cardCta)}</span>
+                  </span>
+                </span>
+                <span class="card-glare" aria-hidden="true"></span>
+              </a>
+            </div>
+          </li>`,
     )
     .join('');
 
-  const grid = many
-    ? `
-    <section class="section collection" id="collection" aria-labelledby="collection-titre">
-      <div class="wrap">
-        <p class="eyebrow eyebrow--gold">${esc(site.collection.eyebrow)}</p>
-        <h2 class="h-section serif" id="collection-titre">${esc(site.collection.title)}</h2>
-        <ul class="grid">${products
-          .map(
-            (p) => `
-          <li class="card reveal">
-            <a class="card-link" href="${productPath(p)}">
-              ${imgTag(p.main, root, { cls: 'card-photo' })}
-              <span class="card-body">
-                <span class="card-name serif">${esc(p.name)}</span>
-                <span class="card-detail">${esc(p.detail ?? '')}</span>
-                ${priceBlock(p, 'price--small')}
-              </span>
-            </a>
+  const columns = Number.isInteger(c.columns) ? c.columns : 3;
+  const soon = (c.soon ?? [])
+    .slice(0, Math.max(0, columns - products.length))
+    .map(
+      (s, i) => `
+          <li class="card-item d-only reveal">
+            <div class="card-soon${i > 0 ? ' card-soon--faded' : ''}">
+              <span class="soon-plus" aria-hidden="true">+</span>
+              <p class="soon-title serif">${html(s.title)}</p>
+              <p class="soon-text">${esc(s.text)}</p>
+              ${etsyShop ? extLink(etsyShop, 'btn btn-outline', esc(s.cta)) : ''}
+            </div>
           </li>`,
-          )
-          .join('')}
-        </ul>
-      </div>
-    </section>`
-    : '';
+    )
+    .join('');
+
+  const atelierPhoto = pickImage(products, at.photo, 0);
+
+  const figures = (at.figures ?? [])
+    .map(
+      (f) => `
+            <li><span class="figure-value serif">${esc(f.value)}</span><span class="figure-label">${esc(f.label)}</span></li>`,
+    )
+    .join('');
 
   const steps = site.steps.items
-    .map((s, i) => {
-      const textHtml = dm(s.text);
-      return `
+    .map(
+      (s, i) => `
           <li class="step reveal">
             <p class="step-num serif" aria-hidden="true">${String(i + 1).padStart(2, '0')}</p>
             <div class="step-text">
               <h3 class="step-title">${esc(s.title)}</h3>
-              <p class="step-desc">${textHtml}</p>
+              <p class="step-desc">${dm(s.text)}</p>
             </div>
-          </li>`;
-    })
+          </li>`,
+    )
     .join('');
 
   const ld = [
@@ -371,29 +407,30 @@ function renderHome(products, site) {
     description: site.description,
     canonical: `${BASE_URL}/`,
     ogType: 'website',
-    ogImage: feat.hero,
+    ogImage: feat.main,
     site,
     root,
     ld,
   })}
 <body class="page-home">
   <a class="skip" href="#contenu">Aller au contenu</a>
-${header(site, { root, overlay: true, collectionId })}
+${header(site, { root, overlay: true })}
   <main id="contenu">
   <section class="hero" aria-label="Présentation">
-    <div class="hero-photo">
-        ${heroPicture}
-    </div>
-    <div class="hero-shade" aria-hidden="true"></div>
-    <div class="hero-fade" aria-hidden="true"></div>
     <div class="glow glow--hero" aria-hidden="true"></div>
+    <div class="stage">
+      <div class="stage-float">
+        <div class="stage-tilt">${stack}
+        </div>
+      </div>
+    </div>
     <div class="hero-text">
-      <p class="eyebrow eyebrow--gold">${dm(h.eyebrow)}</p>
-      <h1 class="hero-title serif"><span class="line">${esc(h.titleLine1)}</span> <em class="line">${esc(h.titleLine2)}</em></h1>
+      <p class="eyebrow eyebrow--gold">${esc(h.eyebrow)}</p>
+      <h1 class="hero-title serif"><span class="line">${esc(h.titleLine1)}</span> <span class="line">${esc(h.titleLine2)}<em>${esc(h.titleEmphasis)}</em></span></h1>
       <p class="hero-sub">${dm(h.subtitle)}</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="${productHref}">${CTA_ARROW(h.primaryCta)}</a>
-        ${feat.etsyUrl ? extLink(feat.etsyUrl, 'btn btn-outline', esc(h.etsyCta)) : ''}
+        <a class="btn btn-primary" href="#collection">${CTA_ARROW(h.primaryCta)}</a>
+        ${etsyShop ? extLink(etsyShop, 'btn btn-outline', esc(h.etsyCta)) : ''}
       </div>
       <ul class="guarantees d-only">${h.guarantees.map((g) => `<li><span class="dot-small" aria-hidden="true"></span>${esc(g)}</li>`).join('')}</ul>
     </div>
@@ -406,42 +443,36 @@ ${header(site, { root, overlay: true, collectionId })}
     </div>
   </section>
 
-  <section class="moment" id="piece" aria-labelledby="moment-titre">
-    <div class="wrap moment-grid">
-      <div class="moment-visual reveal">
-        <div class="glow glow--moment" aria-hidden="true"></div>
-        <a class="moment-photo" href="${productHref}" tabindex="-1" aria-hidden="true">${imgTag(feat.main, root)}</a>
-        <p class="tag d-only"><span class="dot-tag" aria-hidden="true"></span>${esc(feat.badge ?? '')}</p>
-      </div>
-      <div class="moment-text reveal">
-        <p class="eyebrow eyebrow--ember">${esc(m.eyebrow)}</p>
-        <h2 class="h-moment serif" id="moment-titre">${esc(feat.name)}</h2>
-        <p class="moment-pitch">${dm(feat.pitch ?? feat.description)}</p>
-        <ul class="chips d-only">${(feat.highlights ?? []).map((c) => `<li>${esc(c)}</li>`).join('')}</ul>
-        ${priceBlock(feat)}
-        <p class="moment-note d-only">${esc(m.note)}</p>
-        <div class="moment-actions">
-          <a class="btn btn-primary" href="${productHref}">${CTA_ARROW(m.primaryCta)}</a>
-          ${feat.etsyUrl ? extLink(feat.etsyUrl, 'btn btn-outline d-only', esc(m.etsyCta)) : ''}
+  <section class="collection" id="collection" aria-labelledby="collection-titre">
+    <div class="wrap">
+      <div class="collection-head d-only reveal">
+        <div>
+          <p class="eyebrow eyebrow--gold">${esc(c.eyebrow)}</p>
+          <h2 class="h-collection serif" id="collection-titre">${esc(c.title)}</h2>
         </div>
+        <p class="collection-text">${esc(c.text)}</p>
+      </div>
+      <ul class="grid">${cards}${soon}
+      </ul>
+    </div>
+  </section>
+
+  <section class="atelier" id="atelier" aria-labelledby="atelier-titre">
+    <div class="wrap atelier-grid reveal">
+      <div class="atelier-visual">
+        <div class="glow glow--atelier" aria-hidden="true"></div>
+        <div class="atelier-photo">${imgTag(atelierPhoto, root)}</div>
+      </div>
+      <div class="atelier-text">
+        <p class="eyebrow eyebrow--gold">${esc(at.eyebrow)}</p>
+        <h2 class="h-atelier serif" id="atelier-titre">${finalHeading(at.titleLine1, at.titleLine2)}</h2>
+        <p class="atelier-p">${dm(at.text)}</p>
+        <ul class="figures d-only">${figures}
+        </ul>
       </div>
     </div>
   </section>
 
-  <section class="ambiance" aria-labelledby="ambiance-titre">
-    <div class="wrap">
-      <div class="ambiance-head reveal">
-        <div>
-          <p class="eyebrow eyebrow--gold">${esc(a.eyebrow)}</p>
-          <h2 class="h-ambiance serif" id="ambiance-titre">${finalHeading(a.titleLine1, a.titleLine2)}</h2>
-        </div>
-        <p class="ambiance-text d-only">${esc(a.text)}</p>
-      </div>
-      <div class="mosaic">${mood}
-      </div>
-    </div>
-  </section>
-${grid}
   <section class="steps" id="commander" aria-labelledby="steps-titre">
     <div class="wrap">
       <div class="steps-head reveal">
@@ -458,7 +489,7 @@ ${grid}
     <div class="final-inner reveal">
       <p class="eyebrow eyebrow--gold">${esc(site.finalHome.eyebrow)}</p>
       <h2 class="h-final serif" id="final-titre">${finalHeading(site.finalHome.titleLine1, site.finalHome.titleLine2)}</h2>
-      <a class="btn btn-primary" href="${productHref}">${CTA_ARROW(site.finalHome.cta)}</a>
+      <a class="btn btn-primary" href="#collection">${CTA_ARROW(site.finalHome.cta)}</a>
     </div>
   </section>
   </main>
@@ -494,8 +525,6 @@ function productJsonLd(p, site) {
 function renderProduct(p, products, site) {
   const root = '../';
   const s = site.product;
-  const many = products.length > 1;
-  const collectionId = many ? 'collection' : 'piece';
   const eyebrow = [p.collection, p.badge].filter(Boolean).join(' · ');
   const pageUrl = abs(productPath(p));
   const description = p.description;
@@ -562,18 +591,20 @@ function renderProduct(p, products, site) {
   })}
 <body class="page-product">
   <a class="skip" href="#contenu">Aller au contenu</a>
-${header(site, { root, overlay: false, collectionId })}
+${header(site, { root, overlay: false })}
   <nav class="crumbs d-only" aria-label="Fil d’Ariane">
-    <div class="wrap"><a href="${root}#${collectionId}">${esc(s.breadcrumbRoot)}</a><span class="crumbs-sep" aria-hidden="true">/</span><span aria-current="page">${esc(p.name)}</span></div>
+    <div class="wrap"><a href="${root}#collection">${esc(s.breadcrumbRoot)}</a><span class="crumbs-sep" aria-hidden="true">/</span><span aria-current="page">${esc(p.name)}</span></div>
   </nav>
 
   <main id="contenu">
     <section class="product">
       <div class="wrap product-grid">
         <div class="gallery">
-          <div class="gallery-main">
-            <img id="galerie-principale" src="${esc(root + p.main.src)}" alt="${esc(p.main.alt)}" width="${p.main.width}" height="${p.main.height}" fetchpriority="high" decoding="async">
-            ${p.badge ? `<p class="tag"><span class="dot-tag" aria-hidden="true"></span>${esc(p.badge)}</p>` : ''}
+          <div class="gallery-stage">
+            <div class="gallery-main" style="--vt:${vtName(p)}">
+              <img id="galerie-principale" src="${esc(root + p.main.src)}" alt="${esc(p.main.alt)}" width="${p.main.width}" height="${p.main.height}" fetchpriority="high" decoding="async">
+              ${p.badge ? `<p class="tag"><span class="dot-tag" aria-hidden="true"></span>${esc(p.badge)}</p>` : ''}
+            </div>
           </div>
           <div class="thumbs">${thumbs}
           </div>
@@ -643,6 +674,15 @@ ${footer(site, products)}
 // ---------------------------------------------------------------------------
 function main() {
   const site = readJson('data/site.json');
+  BASE_URL = String(site.baseUrl ?? '').replace(/\/+$/, '');
+  if (!/^https?:\/\/[^/\s]+(\/[^\s]*)?$/.test(BASE_URL)) throw new Error('data/site.json : baseUrl doit être une URL absolue (https://…).');
+  const customDomain = String(site.customDomain ?? '').trim();
+  if (customDomain && !/^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/i.test(customDomain)) {
+    throw new Error(`data/site.json : customDomain invalide (« ${customDomain} »). Attendu : un nom de domaine, sans https:// ni /.`);
+  }
+  if (customDomain && new URL(BASE_URL).host !== customDomain) {
+    console.warn(`attention : customDomain (${customDomain}) et baseUrl (${BASE_URL}) ne désignent pas le même hôte.`);
+  }
   const products = loadProducts();
 
   const slugs = new Set();
@@ -657,6 +697,7 @@ function main() {
   if (existsSync(PUBLIC_DIR)) cpSync(PUBLIC_DIR, DIST, { recursive: true });
 
   writeFileSync(join(DIST, '.nojekyll'), '');
+  if (customDomain) writeFileSync(join(DIST, 'CNAME'), `${customDomain}\n`);
   writeFileSync(join(DIST, 'index.html'), renderHome(products, site));
   for (const p of products) {
     mkdirSync(join(DIST, p.slug), { recursive: true });
@@ -676,6 +717,7 @@ function main() {
   console.log(`build ok : accueil + ${products.length} fiche(s) produit -> ${resolve(DIST)}`);
   for (const p of products) console.log(`  /${p.slug}/`);
   console.log(`BASE_URL = ${BASE_URL}`);
+  console.log(customDomain ? `CNAME = ${customDomain}` : 'CNAME : aucun (customDomain vide)');
 }
 
 main();

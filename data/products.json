@@ -16,25 +16,36 @@
       "d": "Lanterne d’automne de 36 cm, à poser dedans comme dehors. Lumière chaude, sans flamme.",
       "m": "Lanterne d’automne de 36 cm, dedans comme dehors. Lumière chaude, sans flamme."
     },
-    "pitch": {
-      "d": "Une grande citrouille de 36 cm au sourire découpé, avec son couvercle amovible. Glissez la guirlande, allumez : elle diffuse une lumière chaude et douce, sans flamme ni odeur. Sur la table, la cheminée, le perron ou la terrasse.",
-      "m": "36 cm, couvercle amovible, lumière chaude et douce sans flamme. Dedans comme dehors."
-    },
-    "highlights": ["36 × 36 cm", "Guirlande LED fournie", "Intérieur & extérieur", "Résiste à la pluie"],
+    "cardTagline": "Lanterne de 36 cm, lumière LED sans flamme, dedans comme dehors.",
     "quote": "Une lumière chaude et douce, qui transforme l’entrée en soirée d’octobre.",
-    "story": "Dessinée à l’atelier, fabriquée en petite série en Savoie, puis finie à la main. Son couvercle se soulève pour glisser la guirlande ; le sourire découpé fait le reste.",
+    "story": "Dessinée à l’atelier et fabriquée en petite série en Savoie. Son couvercle se soulève pour glisser la guirlande ; le sourire découpé fait le reste.",
     "specs": [
-      { "label": "Dimensions", "value": "36 × 36 cm" },
-      { "label": "Matière", "value": "PETG, léger et solide" },
+      {
+        "label": "Dimensions",
+        "value": "36 × 36 cm"
+      },
+      {
+        "label": "Matière",
+        "value": "PETG, léger et solide"
+      },
       {
         "label": "Lumière",
-        "value": { "d": "Guirlande LED blanc chaud à piles, fournie", "m": "LED à piles, fournie" }
+        "value": {
+          "d": "Guirlande LED blanc chaud à piles, fournie",
+          "m": "LED à piles, fournie"
+        }
       },
       {
         "label": "Usage",
-        "value": { "d": "Intérieur et extérieur, résiste à la pluie", "m": "Dedans et dehors" }
+        "value": {
+          "d": "Intérieur et extérieur, résiste à la pluie",
+          "m": "Dedans et dehors"
+        }
       },
-      { "label": "Poids", "value": "environ 1 kg" }
+      {
+        "label": "Poids",
+        "value": "environ 1 kg"
+      }
     ],
     "faq": [
       {
@@ -64,12 +75,19 @@
         }
       }
     ],
-    "heroImage": 2,
-    "heroImageMobile": 0,
     "nightImage": 2,
-    "galleryImages": [0, 1, 2, 4, 5],
-    "moodImages": [4, 5, 3],
-    "detailImages": [1, 4, 5],
+    "galleryImages": [
+      0,
+      1,
+      2,
+      4,
+      5
+    ],
+    "detailImages": [
+      1,
+      4,
+      5
+    ],
     "images": [
       {
         "src": "images/citrouille-36-1.jpg",
@@ -86,19 +104,16 @@
       },
       {
         "src": "images/citrouille-36-4.jpg",
-        "alt": "Citrouille lumineuse vue de côté dans la pénombre, la lumière traverse le sourire et les yeux",
-        "caption": "Un sourire qui se voit de loin."
+        "alt": "Citrouille lumineuse vue de côté dans la pénombre, la lumière traverse le sourire et les yeux"
       },
       {
         "src": "images/citrouille-36-5.jpg",
         "alt": "Citrouille ouverte, couvercle retiré au-dessus, guirlande LED allumée visible à l'intérieur",
-        "caption": "Couvercle amovible, pour glisser la guirlande en un geste.",
         "detailCaption": "Le couvercle se soulève en un geste."
       },
       {
         "src": "images/citrouille-36-6.jpg",
         "alt": "Citrouille lumineuse vue du dessus, ouverture éclairée par la guirlande LED, visage sur le côté",
-        "caption": "Vue d’en haut : la lueur déborde.",
         "detailCaption": "D’en haut, la lueur déborde."
       }
     ]

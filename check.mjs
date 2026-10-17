@@ -10,8 +10,8 @@ const PUBLIC_DIR = join(ROOT, 'public');
 
 const TEXT_EXTENSIONS = new Set(['.html', '.css', '.xml', '.txt', '.json', '.svg', '.js', '.mjs', '.webmanifest']);
 const REQUIRED_DIST_FILES = ['index.html', 'styles.css', 'sitemap.xml', 'robots.txt', '.nojekyll'];
-const BASE_URL = 'https://pockemon.github.io/meltro-studio';
-const MAX_INLINE_SCRIPT = 4000;
+let BASE_URL = '';
+const MAX_INLINE_SCRIPT = 6000;
 
 // « 3D » est cherché comme mot isolé : les codes couleur comme #e3d9cc ne doivent pas déclencher d'alerte.
 const FORBIDDEN = [
@@ -19,6 +19,12 @@ const FORBIDDEN = [
   { label: 'impression', pattern: /impression/i },
   { label: 'imprimé / imprimante', pattern: /imprim/i },
 ];
+
+// « Fait main » est faux : la marque conçoit en Savoie et fabrique en petite série.
+// Le motif est appliqué au texte brut ET au texte sans accents (« à la main » → « a la main »).
+const HAND_MADE = /fait(e|s)? (à la )?main|finie?s? à la main|artisanal/i;
+const HAND_MADE_PLAIN = /fait(e|s)? (a la )?main|finie?s? a la main|artisanal/i;
+const squash = (text) => text.replace(/[\s\u00a0\u202f]+/g, ' ');
 
 const TOKENS = {
   '--bg': '#120d0a',
@@ -109,12 +115,11 @@ function checkProducts() {
     if (p.leboncoinUrl && !isUrl(p.leboncoinUrl)) {
       fail(`${label} : leboncoinUrl invalide (laisser vide pour masquer le bouton).`);
     }
-    for (const field of ['tagline', 'pitch', 'quote', 'story']) {
-      if (!p[field]) fail(`${label} : « ${field} » manquant (fiche produit).`);
+    for (const field of ['tagline', 'cardTagline', 'quote', 'story']) {
+      if (!p[field]) fail(`${label} : « ${field} » manquant (fiche produit et carte de l'accueil).`);
     }
     if (!Array.isArray(p.specs) || p.specs.length === 0) fail(`${label} : « specs » manquant.`);
     if (!Array.isArray(p.faq) || p.faq.length === 0) fail(`${label} : « faq » manquant.`);
-    if (!Array.isArray(p.highlights) || p.highlights.length === 0) fail(`${label} : « highlights » manquant.`);
     if (!Array.isArray(p.images) || p.images.length === 0) {
       fail(`${label} : au moins une image est requise.`);
     } else {
@@ -125,10 +130,10 @@ function checkProducts() {
           fail(`${label} : image #${i + 1} introuvable ou vide (public/${src}).`);
         }
       });
-      for (const field of ['heroImage', 'heroImageMobile', 'nightImage']) {
+      for (const field of ['nightImage']) {
         if (field in p && !(Number.isInteger(p[field]) && p.images[p[field]])) fail(`${label} : ${field} hors limites.`);
       }
-      for (const field of ['galleryImages', 'moodImages', 'detailImages']) {
+      for (const field of ['galleryImages', 'detailImages']) {
         if (field in p && !(Array.isArray(p[field]) && p[field].every((n) => Number.isInteger(n) && p.images[n]))) {
           fail(`${label} : ${field} contient un index d'image inexistant.`);
         }
@@ -169,6 +174,18 @@ function checkTokens() {
   }
   if (!/prefers-reduced-motion:\s*no-preference/.test(text)) fail('styles.css : les animations doivent être limitées à prefers-reduced-motion: no-preference.');
   if (!/:focus-visible/.test(text)) fail('styles.css : style :focus-visible manquant.');
+  if (!/@view-transition\s*\{\s*navigation:\s*auto/.test(text)) fail('styles.css : @view-transition { navigation: auto; } manquant.');
+  if (!/view-transition-name:\s*var\(--vt/.test(text)) fail('styles.css : view-transition-name partagé (photo carte / photo fiche) manquant.');
+  if (!/prefers-reduced-motion:\s*reduce/.test(text)) fail('styles.css : bloc prefers-reduced-motion: reduce manquant.');
+  if (!/perspective\(1200px\)/.test(text)) fail('styles.css : perspective(1200px) de la pile du hero manquante.');
+  const fxStart = text.indexOf('@media (prefers-reduced-motion: no-preference)');
+  const fxEnd = text.indexOf('@media print', fxStart);
+  if (fxStart >= 0 && fxEnd > fxStart) {
+    for (const m of text.slice(fxStart, fxEnd).matchAll(/transition:\s*([^;}]+)/g)) {
+      const props = m[1].replace(/\([^)]*\)/g, '').split(',').map((part) => part.trim().split(/\s+/)[0]);
+      if (props.some((prop) => !['opacity', 'transform'].includes(prop))) fail(`styles.css : les effets 3D ne doivent animer que transform et opacity (transition : ${m[1].trim()}).`);
+    }
+  }
   for (const m of text.matchAll(/url\(\s*['"]?(\/[^)'"]*)/g)) fail(`styles.css : chemin absolu à la racine : ${m[1]}`);
   if (errors.length === before) ok('styles.css : 11 variables Figma, polices, focus visible, animations conditionnelles, contrastes AA (≥ 4.5)');
 }
@@ -196,7 +213,7 @@ function visibleText(html) {
 }
 
 // Contrôles communs à toutes les pages.
-function checkPageCommon(page, html, { dir, url, products }) {
+function checkPageCommon(page, html, { dir, url, products, maxEager = 1 }) {
   const before = errors.length;
   if (!/<html lang="fr"/.test(html)) fail(`${page} : attribut lang="fr" manquant.`);
   if (!/<title>[^<]+<\/title>/.test(html)) fail(`${page} : <title> manquant.`);
@@ -221,6 +238,7 @@ function checkPageCommon(page, html, { dir, url, products }) {
   for (const [, attrs, body] of scripts) {
     if (/\bsrc=/.test(attrs)) fail(`${page} : script externe interdit.`);
     if (body.length > MAX_INLINE_SCRIPT) fail(`${page} : script inline trop gros (${body.length} > ${MAX_INLINE_SCRIPT} caractères).`);
+    if (!body.includes('prefers-reduced-motion: reduce') || !body.includes('pointer: coarse')) fail(`${page} : le script doit désactiver les effets en « réduire les animations » et sur écran tactile (pointer: coarse).`);
     if (/\b(?:fetch|XMLHttpRequest|localStorage|document\.cookie)\b/.test(body)) fail(`${page} : le script ne doit ni appeler le réseau ni stocker de données.`);
   }
 
@@ -238,7 +256,7 @@ function checkPageCommon(page, html, { dir, url, products }) {
   const eager = imgs.filter((t) => !/loading="lazy"/.test(t));
   const prioritized = imgs.filter((t) => /fetchpriority="high"/.test(t));
   if (prioritized.length !== 1) fail(`${page} : une seule image prioritaire (fetchpriority="high") est attendue (${prioritized.length}).`);
-  if (eager.length !== 1) fail(`${page} : seule l'image principale ne doit pas être en lazy (${eager.length} images non lazy).`);
+  if (eager.length < 1 || eager.length > maxEager) fail(`${page} : seules les images au-dessus de la ligne de flottaison ne doivent pas être en lazy (${eager.length} images non lazy, ${maxEager} au plus).`);
 
   for (const m of html.matchAll(/<a\b[^>]*>/g)) {
     const tag = m[0];
@@ -273,25 +291,90 @@ function checkDist(products) {
 
   // --- Accueil ---
   const home = readFileSync(join(DIST, 'index.html'), 'utf8');
-  checkPageCommon('index.html', home, { dir: DIST, url: `${BASE_URL}/`, products });
+  checkPageCommon('index.html', home, { dir: DIST, url: `${BASE_URL}/`, products, maxEager: 3 });
   const homeBefore = errors.length;
   const homeLd = parseLd('index.html', home);
   const types = homeLd.map((x) => x['@type']);
   if (!types.includes('WebSite') || !types.includes('Organization')) fail('index.html : JSON-LD WebSite et Organization attendus.');
   if (types.includes('Product')) fail('index.html : le JSON-LD Product appartient aux fiches produit.');
+  const homeText = visibleText(home).replace(/\s+/g, ' ');
+  const flatText = (v) => (Array.isArray(v) ? v.join(' ') : typeof v === 'object' && v ? flatText(v.d ?? v.m) : String(v));
+  const spaced = (v) => flatText(v).replace(/\s+/g, ' ').trim();
+
+  // La collection : toujours affichée, une carte cliquable par produit, complétée par des cartes « à venir ».
+  if (!/<section class="collection" id="collection"/.test(home)) fail('index.html : section « La collection » (#collection) absente.');
+  const cards = [...home.matchAll(/<a class="card" href="([^"]+)">([\s\S]*?)<\/a>/g)];
   for (const p of products) {
-    if (!home.includes(`href="${slugOf(p)}/"`)) fail(`index.html : lien vers la fiche « ${slugOf(p)}/ » absent.`);
+    const card = cards.find((m) => m[1] === `${slugOf(p)}/`);
+    if (!card) {
+      fail(`index.html : carte cliquable vers la fiche « ${slugOf(p)}/ » absente.`);
+      continue;
+    }
+    const cardText = visibleText(card[2]).replace(/\s+/g, ' ');
+    for (const [what, value] of [['nom', p.name], ['badge', p.badge], ['collection', p.collection], ['accroche', p.cardTagline], ['prix', `dès ${formatPrice(p.priceFrom)}\u00a0€`], ['« Voir la pièce »', 'Voir la pièce']]) {
+      if (value && !cardText.replace(/\u00a0/g, ' ').includes(String(value).replace(/\u00a0/g, ' ').replace(/’/g, "'")) && !cardText.replace(/\u00a0/g, ' ').includes(String(value).replace(/\u00a0/g, ' '))) {
+        fail(`index.html : la carte de « ${slugOf(p)} » doit afficher son ${what} (« ${value} »).`);
+      }
+    }
+    if (!card[2].includes(`style="--vt:photo-${slugOf(p)}"`)) fail(`index.html : la photo de la carte « ${slugOf(p)} » doit porter le nom de transition photo-${slugOf(p)}.`);
   }
-  const hasGrid = /<section class="section collection"/.test(home);
-  if (products.length === 1 && hasGrid) fail('index.html : la grille « collection » doit rester masquée tant qu\'il n\'y a qu\'un produit.');
-  if (products.length > 1 && !hasGrid) fail('index.html : la grille « collection » est attendue (plusieurs produits).');
-  for (const anchor of ['commander', 'atelier', 'piece']) {
+  const columns = site.collection.columns ?? 3;
+  const soonCount = (home.match(/class="card-soon[ "]/g) ?? []).length;
+  const expectedSoon = Math.min((site.collection.soon ?? []).length, Math.max(0, columns - products.length));
+  if (soonCount !== expectedSoon) fail(`index.html : ${expectedSoon} carte(s) « en préparation » attendue(s) (trouvé : ${soonCount}).`);
+  if (soonCount > 0) {
+    const etsyShop = site.etsyShopUrl;
+    const follow = [...home.matchAll(/<a class="btn btn-outline" href="([^"]+)" target="_blank" rel="noopener">Suivre sur Etsy/g)];
+    if (follow.length !== soonCount || !follow.every((m) => m[1] === etsyShop)) fail(`index.html : chaque carte « en préparation » doit avoir un bouton « Suivre sur Etsy » vers ${etsyShop}.`);
+  }
+
+  for (const anchor of ['collection', 'atelier', 'commander']) {
     if (!home.includes(`id="${anchor}"`)) fail(`index.html : ancre #${anchor} absente.`);
   }
-  for (const text of [site.hero.titleLine1, site.hero.titleLine2, site.finalHome.titleLine1]) {
-    if (!home.includes(text.replace(/’/g, "'")) && !home.includes(text)) fail(`index.html : texte Figma absent : « ${text} ».`);
+  if (home.includes('id="piece"')) fail('index.html : la section « pièce du moment » ne fait plus partie de l\'accueil.');
+  if (!/<a class="btn btn-primary" href="#collection">/.test(home)) fail('index.html : le bouton principal du hero doit pointer vers #collection.');
+  const navLabels = [site.nav.collection, site.nav.atelier, site.nav.commander, site.nav.etsyDesktop];
+  const navHtml = /<nav class="nav-links"[\s\S]*?<\/nav>/.exec(home)?.[0] ?? '';
+  let lastPos = -1;
+  for (const label of navLabels) {
+    const pos = navHtml.replace(/’/g, "'").indexOf(label.replace(/’/g, "'"));
+    if (pos < 0 || pos < lastPos) fail(`index.html : navigation « ${navLabels.join(' · ')} » attendue dans cet ordre (problème : « ${label} »).`);
+    lastPos = pos;
   }
-  if (errors.length === homeBefore) ok(`index.html : JSON-LD WebSite + Organization, ${products.length} lien(s) vers les fiches, grille ${products.length > 1 ? 'affichée' : 'masquée (un seul produit)'}`);
+
+  const figmaTexts = [
+    site.hero.eyebrow,
+    `${site.hero.titleLine1} ${site.hero.titleLine2}${site.hero.titleEmphasis}`,
+    spaced(site.hero.subtitle.d),
+    ...site.hero.guarantees,
+    ...site.atouts.map((t) => t.title),
+    site.collection.title,
+    site.collection.text,
+    spaced(site.atelier.titleLine1 + ' ' + site.atelier.titleLine2),
+    ...site.atelier.figures.map((f) => `${f.value} ${f.label}`),
+    site.steps.title,
+    site.finalHome.eyebrow,
+    spaced(site.finalHome.titleLine1 + ' ' + site.finalHome.titleLine2),
+    site.footer.tagline,
+  ];
+  const norm = (t) => t.replace(/[’\u00a0]/g, (c) => (c === '’' ? "'" : ' ')).replace(/\s+/g, ' ');
+  for (const text of figmaTexts) {
+    if (!norm(homeText).toLowerCase().includes(norm(text).toLowerCase())) fail(`index.html : texte Figma absent : « ${text} ».`);
+  }
+  if (!/<span class="line">qui <em>font de l’effet\.<\/em><\/span>/.test(home)) fail('index.html : « font de l’effet. » doit être en italique ember (<em>) dans le titre du hero.');
+  const heroImgs = [...home.matchAll(/<div class="stack-card [^"]*">/g)].length;
+  if (heroImgs !== 3) fail(`index.html : la pile du hero doit contenir 3 cartes photo (trouvé : ${heroImgs}).`);
+
+  // Les textes propres à une pièce restent sur sa fiche.
+  for (const p of products) {
+    for (const [what, value] of [['citation', p.quote], ['histoire', p.story], ['légende de détail', p.images.map((i) => i.detailCaption).find(Boolean)]]) {
+      if (value && norm(homeText).includes(norm(value))) fail(`index.html : la ${what} de « ${slugOf(p)} » ne doit apparaître que sur sa fiche.`);
+    }
+  }
+  for (const gone of ['La pièce du moment', 'Dans la lumière']) {
+    if (homeText.includes(gone)) fail(`index.html : « ${gone} » a quitté l'accueil.`);
+  }
+  if (errors.length === homeBefore) ok(`index.html : JSON-LD WebSite + Organization, ${products.length} carte(s) cliquable(s) + ${soonCount} « en préparation », nav, ancres, 3 cartes de hero, textes Figma`);
 
   // --- Fiches produit ---
   for (const p of products) {
@@ -330,12 +413,15 @@ function checkDist(products) {
         fail(`${page} : JSON-LD Offer attendu : ${p.priceFrom} ${p.currency ?? 'EUR'} InStock ${expectedUrl}.`);
       }
       if (prods[0].name !== p.name || prods[0].description !== p.description) fail(`${page} : JSON-LD Product : name/description différents des données.`);
-      if (!/^https:\/\/pockemon\.github\.io\/meltro-studio\//.test(prods[0].image?.[0] ?? '')) fail(`${page} : JSON-LD Product : images en URL absolue attendues.`);
+      if (!(prods[0].image?.[0] ?? '').startsWith(`${BASE_URL}/`)) fail(`${page} : JSON-LD Product : images en URL absolue attendues.`);
     }
 
     if (!html.includes('id="galerie-principale"')) fail(`${page} : photo principale (#galerie-principale) absente.`);
     if ((html.match(/data-thumb/g) ?? []).length < 2) fail(`${page} : au moins 2 vignettes de galerie attendues.`);
     if (!html.includes('id="barre-achat"')) fail(`${page} : barre d'achat mobile absente.`);
+    if (!html.includes(`<div class="gallery-main" style="--vt:photo-${slugOf(p)}">`)) fail(`${page} : la grande photo doit porter le nom de transition photo-${slugOf(p)} (partagé avec la carte de l'accueil).`);
+    for (const r of site.product.reassurance) if (!html.includes(r)) fail(`${page} : réassurance « ${r} » absente.`);
+    if (!html.replace(/&#39;/g, "'").includes(String(p.story).replace(/’/g, "’"))) fail(`${page} : l'histoire de la pièce est absente.`);
     if ((html.match(/<details\b/g) ?? []).length < 1) fail(`${page} : FAQ en <details> absente.`);
     if (!html.includes(`<meta name="description" content="${p.description.replace(/'/g, '&#39;').replace(/"/g, '&quot;')}"`)) {
       fail(`${page} : la meta description doit reprendre la description du produit.`);
@@ -360,6 +446,10 @@ function checkDist(products) {
     const raw = readFileSync(file, 'utf8');
     if (/même prix/i.test(raw)) fail(`« Même prix » ne doit plus apparaître (${relative(ROOT, file)}).`);
     const text = normalize(raw);
+    if (HAND_MADE.test(squash(raw)) || HAND_MADE_PLAIN.test(squash(text))) {
+      const m = HAND_MADE.exec(squash(raw)) ?? HAND_MADE_PLAIN.exec(squash(text));
+      fail(`mention « fait main » interdite (${m[0]}) dans ${relative(ROOT, file)} : la marque conçoit en Savoie et fabrique en petite série.`);
+    }
     for (const { label, pattern } of FORBIDDEN) {
       const match = pattern.exec(text);
       if (match) {
@@ -369,9 +459,32 @@ function checkDist(products) {
       }
     }
   }
-  if (errors.length === wordsBefore) ok(`aucun mot interdit dans dist/ (${textFiles.length} fichiers texte analysés)`);
+  for (const f of ['data/site.json', 'data/products.json']) {
+    const raw = squash(readFileSync(join(ROOT, f), 'utf8'));
+    if (HAND_MADE.test(raw) || HAND_MADE_PLAIN.test(normalize(raw))) fail(`mention « fait main » interdite dans ${f}.`);
+  }
+  if (errors.length === wordsBefore) ok(`aucun mot interdit ni « fait main / artisanal » dans dist/ et data/ (${textFiles.length} fichiers texte analysés)`);
 }
 
+function checkDomain() {
+  const site = readJson('data/site.json');
+  const before = errors.length;
+  BASE_URL = String(site.baseUrl ?? '').replace(/\/+$/, '');
+  if (!isUrl(BASE_URL)) fail('data/site.json : baseUrl doit être une URL absolue (https://…).');
+  if (!('customDomain' in site) || typeof site.customDomain !== 'string') fail('data/site.json : customDomain (chaîne, vide tant que le domaine n\'est pas activé) est requis.');
+  const domain = (site.customDomain ?? '').trim();
+  const cname = join(DIST, 'CNAME');
+  if (existsSync(DIST)) {
+    if (!domain && existsSync(cname)) fail('dist/CNAME ne doit exister que si customDomain est renseigné.');
+    if (domain) {
+      if (!existsSync(cname) || readFileSync(cname, 'utf8').trim() !== domain) fail(`dist/CNAME doit contenir « ${domain} ».`);
+      if (isUrl(BASE_URL) && new URL(BASE_URL).host !== domain) fail(`customDomain (${domain}) activé : baseUrl doit devenir https://${domain}.`);
+    }
+  }
+  if (errors.length === before) ok(`domaine : baseUrl = ${BASE_URL}, customDomain ${domain ? `= ${domain} (dist/CNAME écrit)` : 'vide (pas de dist/CNAME)'}`);
+}
+
+checkDomain();
 const products = checkProducts();
 checkDist(products);
 checkTokens();
