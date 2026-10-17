@@ -1,7 +1,213 @@
 {
   "name": "Meltro Studio",
-  "title": "Meltro Studio — Citrouille lumineuse et décorations d'automne",
-  "description": "Meltro Studio, objets décoratifs fabriqués en France par un particulier : citrouille lumineuse d'Halloween 36 cm, pour l'intérieur comme pour l'extérieur, petites séries finies à la main. Achat sur Etsy ou Leboncoin.",
+  "title": "Meltro Studio — Objets de décoration conçus en Savoie",
+  "description": "Meltro Studio conçoit et fabrique en Savoie des objets de décoration originaux, en petites séries. Collection d'automne : citrouille lumineuse d'Halloween 36 cm. Achat sur Etsy ou Leboncoin.",
+  "baseUrl": "https://meltrostudio.com",
+  "customDomain": "meltrostudio.com",
   "etsyShopUrl": "https://www.etsy.com/shop/MeltroStudio",
-  "leboncoinShopUrl": ""
+  "leboncoinShopUrl": "",
+  "nav": {
+    "collections": "Les collections",
+    "atelier": "L’atelier",
+    "commander": "Comment commander",
+    "etsyDesktop": "Boutique Etsy",
+    "etsyMobile": "Etsy"
+  },
+  "hero": {
+    "eyebrow": "Objets de décoration · Savoie",
+    "titleLine1": "Des objets",
+    "titleLine2": "qui ",
+    "titleEmphasis": "font de l’effet.",
+    "subtitle": {
+      "d": "Meltro Studio conçoit et fabrique en Savoie des objets de décoration originaux, en petites séries. Des pièces pensées pour être remarquées.",
+      "m": "Meltro Studio conçoit et fabrique en Savoie des objets de décoration originaux, en petites séries."
+    },
+    "primaryCta": "Voir la collection  →",
+    "etsyCta": "Boutique Etsy",
+    "guarantees": [
+      "Conçu en Savoie",
+      "Petites séries",
+      "Expédié sous 1 à 2 jours"
+    ],
+    "stack": {
+      "product": "citrouille-36",
+      "images": [
+        3,
+        4,
+        0
+      ]
+    }
+  },
+  "atouts": [
+    {
+      "icon": "main",
+      "title": "Conçu en Savoie",
+      "text": {
+        "d": "Dessinées à l’atelier, fabriquées en Savoie.",
+        "m": "Dessins originaux"
+      }
+    },
+    {
+      "icon": "lumiere",
+      "title": "Petites séries",
+      "text": {
+        "d": "Chaque modèle existe en quantité limitée.",
+        "m": "Quantités limitées"
+      }
+    },
+    {
+      "icon": "pluie",
+      "title": "Matières solides",
+      "text": {
+        "d": "Légères, résistantes, pensées pour durer.",
+        "m": "Pensées pour durer"
+      }
+    },
+    {
+      "icon": "bouclier",
+      "title": "Achat serein",
+      "text": {
+        "d": "Paiement sécurisé Etsy, ou main propre via Leboncoin.",
+        "m": "Etsy ou main propre"
+      }
+    }
+  ],
+  "collections": {
+    "eyebrow": "Les collections",
+    "titleLine1": "Une collection par saison,",
+    "titleLine2": "et une pour toute l’année.",
+    "text": "Chaque pièce est disponible sur Etsy et sur Leboncoin. Les séries sont courtes : quand c’est parti, c’est parti.",
+    "statusSoon": "Bientôt",
+    "statusLimited": "Édition limitée",
+    "pieceOne": "pièce",
+    "pieceMany": "pièces",
+    "ctaOpen": "Découvrir la collection  →",
+    "ctaSoon": "Être prévenu sur Etsy  →"
+  },
+  "collectionPage": {
+    "breadcrumbHome": "Accueil",
+    "breadcrumbRoot": "Collections",
+    "soonSuffix": "bientôt",
+    "cardCta": "Voir la pièce  →",
+    "columns": 3,
+    "soon": [
+      {
+        "title": [
+          "Prochaine pièce",
+          "en préparation"
+        ],
+        "text": "Suivez la boutique sur Etsy pour la voir en premier.",
+        "cta": "Suivre sur Etsy"
+      },
+      {
+        "title": [
+          "Et d’autres",
+          "idées à venir"
+        ],
+        "text": "Suivez la boutique sur Etsy pour la voir en premier.",
+        "cta": "Suivre sur Etsy"
+      }
+    ],
+    "empty": {
+      "title": "Premières pièces bientôt",
+      "text": "Cette collection prépare ses premières pièces. Suivez la boutique sur Etsy pour être prévenu dès leur sortie.",
+      "cta": "Suivre sur Etsy"
+    }
+  },
+  "atelier": {
+    "eyebrow": "L’atelier",
+    "titleLine1": "Conçues en Savoie,",
+    "titleLine2": "fabriquées en petites séries.",
+    "text": {
+      "d": "Chaque objet Meltro naît d’un dessin original à l’atelier, près d’Aix-les-Bains. Nous le fabriquons ensuite en petites quantités, avec des matières légères et résistantes, puis nous le vérifions et l’emballons avec soin avant de l’expédier.",
+      "m": "Chaque objet naît d’un dessin original à l’atelier, près d’Aix-les-Bains, puis il est fabriqué en petite quantité avec des matières légères et résistantes."
+    },
+    "photo": {
+      "product": "citrouille-36",
+      "image": 3
+    },
+    "figures": [
+      {
+        "value": "100 %",
+        "label": "dessins originaux"
+      },
+      {
+        "value": "1 à 2 j",
+        "label": "pour expédier"
+      },
+      {
+        "value": "2",
+        "label": "façons de commander"
+      }
+    ]
+  },
+  "steps": {
+    "eyebrow": "Comment commander",
+    "title": "Trois étapes, et c’est chez vous.",
+    "items": [
+      {
+        "title": "Choisissez votre pièce",
+        "text": {
+          "d": "Chaque modèle est conçu à l’atelier et produit en petite série.",
+          "m": "Conçue à l’atelier, produite en petite série."
+        }
+      },
+      {
+        "title": "Commandez où vous préférez",
+        "text": {
+          "d": [
+            "Etsy : paiement sécurisé et livraison à domicile.",
+            "Leboncoin : envoi ou remise en main propre en Savoie."
+          ],
+          "m": "Etsy : paiement sécurisé et livraison. Leboncoin : envoi ou main propre en Savoie."
+        }
+      },
+      {
+        "title": "Déballez, posez, profitez",
+        "text": "Votre pièce arrive emballée avec soin, prête à poser."
+      }
+    ]
+  },
+  "finalHome": {
+    "eyebrow": "Nouvelles pièces bientôt",
+    "titleLine1": "Trouvez la pièce qui manque",
+    "titleLine2": "à votre intérieur.",
+    "cta": "Voir la collection  →"
+  },
+  "product": {
+    "breadcrumbRoot": "Les collections",
+    "buyTitle": "Où commander",
+    "etsyLabel": "Commander sur Etsy",
+    "etsySub": {
+      "d": "Paiement sécurisé · livraison à domicile",
+      "m": "Paiement sécurisé · livraison"
+    },
+    "leboncoinLabel": "Voir sur Leboncoin",
+    "leboncoinSub": {
+      "d": "Envoi ou remise en main propre en Savoie",
+      "m": "Envoi ou main propre en Savoie"
+    },
+    "priceNote": "Prix et frais de port selon la plateforme.",
+    "reassurance": [
+      "Conçue en Savoie",
+      "Expédiée sous 1 à 2 jours",
+      "Petite série"
+    ],
+    "storyEyebrow": "L’histoire de la pièce",
+    "detailsTitle": "Dans le détail",
+    "faqTitle": "Questions fréquentes",
+    "final": {
+      "eyebrow": "Petites séries",
+      "titleLine1": "Elle n’attend",
+      "titleLine2": "que votre soirée.",
+      "cta": "Commander sur Etsy  →"
+    },
+    "stickyCta": "Commander  →"
+  },
+  "footer": {
+    "tagline": "Objets de décoration conçus en Savoie · Vente par un particulier",
+    "etsy": "Boutique Etsy",
+    "leboncoin": "Leboncoin",
+    "contact": "Contact via Etsy ou Leboncoin"
+  }
 }

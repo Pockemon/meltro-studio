@@ -1,14 +1,93 @@
 [
   {
     "id": "citrouille-36",
+    "slug": "citrouille-lumineuse",
     "name": "Citrouille lumineuse",
-    "collection": "Halloween",
+    "collection": "halloween",
+    "badge": "Édition limitée",
+    "featured": true,
     "detail": "36 × 36 cm · PETG · intérieur et extérieur · guirlande LED à piles fournie",
     "priceFrom": 69,
     "currency": "EUR",
     "description": "Une grande citrouille au visage découpé, avec son couvercle amovible. Allumée, elle diffuse une lumière chaude et douce, sans flamme. À l'intérieur comme à l'extérieur : sur une table, une cheminée, un perron ou une terrasse, pour Halloween et tout l'automne.",
     "etsyUrl": "https://www.etsy.com/fr/listing/4597262080/citrouille-lumineuse-halloween-36-cm",
     "leboncoinUrl": "https://www.leboncoin.fr/ad/decoration/3289781657",
+    "tagline": {
+      "d": "Lanterne d’automne de 36 cm, à poser dedans comme dehors. Lumière chaude, sans flamme.",
+      "m": "Lanterne d’automne de 36 cm, dedans comme dehors. Lumière chaude, sans flamme."
+    },
+    "cardTagline": "Lanterne de 36 cm, lumière LED sans flamme, dedans comme dehors.",
+    "quote": "Une lumière chaude et douce, qui transforme l’entrée en soirée d’octobre.",
+    "story": "Dessinée à l’atelier et fabriquée en petite série en Savoie. Son couvercle se soulève pour glisser la guirlande ; le sourire découpé fait le reste.",
+    "specs": [
+      {
+        "label": "Dimensions",
+        "value": "36 × 36 cm"
+      },
+      {
+        "label": "Matière",
+        "value": "PETG, léger et solide"
+      },
+      {
+        "label": "Lumière",
+        "value": {
+          "d": "Guirlande LED blanc chaud à piles, fournie",
+          "m": "LED à piles, fournie"
+        }
+      },
+      {
+        "label": "Usage",
+        "value": {
+          "d": "Intérieur et extérieur, résiste à la pluie",
+          "m": "Dedans et dehors"
+        }
+      },
+      {
+        "label": "Poids",
+        "value": "environ 1 kg"
+      }
+    ],
+    "faq": [
+      {
+        "q": "Peut-on la mettre dehors ?",
+        "a": {
+          "d": "Oui. La citrouille est solide et la guirlande résiste à la pluie : perron, terrasse ou rebord de fenêtre.",
+          "m": "Oui : elle est solide et la guirlande résiste à la pluie."
+        }
+      },
+      {
+        "q": "La guirlande est-elle fournie ?",
+        "a": {
+          "d": "Oui, une guirlande LED blanc chaud qui fonctionne à piles. Aucune prise, aucun fil qui traîne.",
+          "m": "Oui, LED blanc chaud à piles."
+        }
+      },
+      {
+        "q": "Comment l’allumer ?",
+        "a": "Soulevez le couvercle, glissez la guirlande, allumez, refermez. C’est tout.",
+        "mobile": false
+      },
+      {
+        "q": "Comment la recevoir ?",
+        "a": {
+          "d": "Sur Etsy, livraison à domicile avec paiement sécurisé. Sur Leboncoin, envoi ou remise en main propre en Savoie.",
+          "m": "Etsy : livraison à domicile. Leboncoin : envoi ou main propre en Savoie."
+        }
+      }
+    ],
+    "nightImage": 2,
+    "galleryImages": [
+      0,
+      1,
+      2,
+      4,
+      5
+    ],
+    "detailImages": [
+      1,
+      4,
+      5
+    ],
     "images": [
       {
         "src": "images/citrouille-36-1.jpg",
@@ -16,7 +95,8 @@
       },
       {
         "src": "images/citrouille-36-2.jpg",
-        "alt": "Citrouille lumineuse orange vue de trois quarts, avec son bandeau rouge et son couvercle en place"
+        "alt": "Citrouille lumineuse orange vue de trois quarts, avec son bandeau rouge et son couvercle en place",
+        "detailCaption": "De profil : 36 cm de rondeur."
       },
       {
         "src": "images/citrouille-36-3.jpg",
@@ -28,11 +108,13 @@
       },
       {
         "src": "images/citrouille-36-5.jpg",
-        "alt": "Citrouille ouverte, couvercle retiré au-dessus, guirlande LED allumée visible à l'intérieur"
+        "alt": "Citrouille ouverte, couvercle retiré au-dessus, guirlande LED allumée visible à l'intérieur",
+        "detailCaption": "Le couvercle se soulève en un geste."
       },
       {
         "src": "images/citrouille-36-6.jpg",
-        "alt": "Citrouille lumineuse vue du dessus, ouverture éclairée par la guirlande LED, visage sur le côté"
+        "alt": "Citrouille lumineuse vue du dessus, ouverture éclairée par la guirlande LED, visage sur le côté",
+        "detailCaption": "D’en haut, la lueur déborde."
       }
     ]
   }

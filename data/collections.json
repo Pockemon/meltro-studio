@@ -1,0 +1,29 @@
+[
+  {
+    "slug": "halloween",
+    "name": "Halloween",
+    "season": "Septembre – novembre",
+    "tagline": "Lanternes et citrouilles pour les soirées d’octobre.",
+    "description": "Lanternes et citrouilles pour les soirées d’octobre. Des pièces de saison, en petites séries.",
+    "accent": "#FF7A1A",
+    "order": 1
+  },
+  {
+    "slug": "noel",
+    "name": "Noël",
+    "season": "Décembre",
+    "tagline": "Décorations de fin d’année, à poser ou à suspendre.",
+    "description": "Décorations de fin d’année, à poser ou à suspendre. Des pièces de saison, en petites séries.",
+    "accent": "#E9B872",
+    "order": 2
+  },
+  {
+    "slug": "everyday",
+    "name": "Everyday",
+    "season": "Toute l’année",
+    "tagline": "Objets de décoration pour tous les jours.",
+    "description": "Objets de décoration pour tous les jours. Des pièces simples, en petites séries.",
+    "accent": "#3D7EA6",
+    "order": 3
+  }
+]
