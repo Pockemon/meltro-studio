@@ -216,6 +216,7 @@ a {
 
 .detail {
   margin: 0;
+  text-wrap: pretty;
   color: var(--ink-muted);
   font-size: 14px;
   line-height: 1.45;
