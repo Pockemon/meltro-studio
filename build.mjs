@@ -86,9 +86,9 @@ function loadProducts() {
   });
 }
 
-const formatPrice = (price, currency = 'EUR') => {
-  const amount = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 2 }).format(price);
-  return `${amount} ${CURRENCY_SYMBOLS[currency] ?? currency}`;
+const formatPriceFrom = (priceFrom, currency = 'EUR') => {
+  const amount = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 2 }).format(priceFrom);
+  return `Dès ${amount} ${CURRENCY_SYMBOLS[currency] ?? currency}`;
 };
 
 const encodePath = (path) => path.split('/').map(encodeURIComponent).join('/');
@@ -133,11 +133,11 @@ function renderCard(p, { eagerFirst }) {
             <p class="detail">${esc(p.detail ?? '')}</p>
             <p class="description">${esc(p.description ?? '')}</p>
           </div>
-          <p class="price serif">${esc(formatPrice(p.price, p.currency))}</p>
+          <p class="price serif">${esc(formatPriceFrom(p.priceFrom, p.currency))}</p>
           <div class="actions">
           <a class="btn btn-etsy" href="${esc(p.etsyUrl)}" target="_blank" rel="noopener">Acheter sur Etsy<span class="sr-only"> (nouvel onglet)</span></a>${leboncoin}
           </div>
-          <p class="note">Même prix sur Etsy et Leboncoin, frais de port en plus.</p>
+          <p class="note">Prix exact et frais de port sur chaque plateforme.</p>
         </article>
       </li>`;
 }
@@ -154,10 +154,10 @@ function productJsonLd(p, site) {
     brand: { '@type': 'Brand', name: site.name },
     offers: {
       '@type': 'Offer',
-      price: String(p.price),
+      price: String(p.priceFrom),
       priceCurrency: p.currency ?? 'EUR',
       availability: 'https://schema.org/InStock',
-      url: p.etsyUrl,
+      url: p.leboncoinUrl || p.etsyUrl,
     },
   };
 }

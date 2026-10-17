@@ -68,9 +68,10 @@ function checkProducts() {
       ids.add(p.id);
     }
     if (typeof p.name !== 'string' || !p.name.trim()) fail(`${label} : name manquant.`);
-    if (typeof p.price !== 'number' || !Number.isFinite(p.price) || p.price <= 0) {
-      fail(`${label} : price doit être un nombre > 0.`);
+    if (typeof p.priceFrom !== 'number' || !Number.isFinite(p.priceFrom) || p.priceFrom <= 0) {
+      fail(`${label} : priceFrom doit être un nombre > 0.`);
     }
+    if ('price' in p) fail(`${label} : « price » est remplacé par « priceFrom ».`);
     if (typeof p.etsyUrl !== 'string' || !isUrl(p.etsyUrl)) {
       fail(`${label} : etsyUrl manquant ou invalide.`);
     }
@@ -88,7 +89,7 @@ function checkProducts() {
         }
       });
     }
-    if (errors.length === before) ok(`${label} : nom, prix, etsyUrl et ${p.images.length} image(s) présents`);
+    if (errors.length === before) ok(`${label} : nom, priceFrom, etsyUrl et ${p.images.length} image(s) présents`);
   });
   return products;
 }
@@ -156,6 +157,35 @@ function checkDist(products) {
     fail(`lien Leboncoin de l'en-tête : « ${headerLeboncoin ?? 'absent'} », attendu « ${expectedHeaderLeboncoin || 'absent'} ».`);
   }
   for (const p of products) {
+    const amount = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 2 }).format(p.priceFrom);
+    const expectedPrice = `Dès ${amount} ${p.currency && p.currency !== 'EUR' ? p.currency : '€'}`;
+    if (!html.includes(`>${expectedPrice}<`)) fail(`« ${expectedPrice} » absent de index.html (produit « ${p.id} »).`);
+  }
+  if (!html.includes('Prix exact et frais de port sur chaque plateforme.')) {
+    fail('index.html : la mention « Prix exact et frais de port sur chaque plateforme. » est absente.');
+  }
+  for (const m of html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/g)) {
+    let ld;
+    try {
+      ld = JSON.parse(m[1]);
+    } catch {
+      fail('index.html : JSON-LD invalide.');
+      continue;
+    }
+    const p = products.find((x) => x.name === ld.name);
+    const offers = ld.offers;
+    if (!p || !offers || Array.isArray(offers) || offers['@type'] !== 'Offer') {
+      fail(`JSON-LD « ${ld.name} » : un seul Offer est attendu.`);
+      continue;
+    }
+    const expectedUrl = p.leboncoinUrl || p.etsyUrl;
+    if (Number(offers.price) !== p.priceFrom || offers.priceCurrency !== (p.currency ?? 'EUR') ||
+        offers.availability !== 'https://schema.org/InStock' || offers.url !== expectedUrl) {
+      fail(`JSON-LD « ${ld.name} » : offre attendue ${p.priceFrom} ${p.currency ?? 'EUR'} InStock ${expectedUrl}.`);
+    }
+  }
+  if (errors.length === htmlBefore) ok(`index.html : prix « Dès … », mention des prix par plateforme et JSON-LD (un Offer par produit) conformes`);
+  for (const p of products) {
     if (!html.includes(`id="${p.id}"`)) fail(`produit « ${p.id} » absent de index.html.`);
   }
   if (errors.length === htmlBefore) ok(`index.html : ${products.length} produit(s), ${etsyButtons} bouton(s) Etsy, ${leboncoinButtons} bouton(s) Leboncoin`);
@@ -163,7 +193,9 @@ function checkDist(products) {
   const before = errors.length;
   const textFiles = walk(DIST).filter((f) => TEXT_EXTENSIONS.has(extname(f).toLowerCase()));
   for (const file of textFiles) {
-    const text = normalize(readFileSync(file, 'utf8'));
+    const raw = readFileSync(file, 'utf8');
+    if (/même prix/i.test(raw)) fail(`« Même prix » ne doit plus apparaître (${relative(ROOT, file)}).`);
+    const text = normalize(raw);
     for (const { label, pattern } of FORBIDDEN) {
       const match = pattern.exec(text);
       if (match) {

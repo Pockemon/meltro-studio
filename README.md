@@ -36,7 +36,7 @@ Il suffit d'ajouter une entrée dans `data/products.json` et de déposer ses ima
   "name": "Nom du produit",
   "collection": "Collection",
   "detail": "Dimensions · matière · précisions",
-  "price": 49,
+  "priceFrom": 49,
   "currency": "EUR",
   "description": "Texte de présentation.",
   "etsyUrl": "https://www.etsy.com/fr/listing/...",
@@ -49,7 +49,7 @@ Il suffit d'ajouter une entrée dans `data/products.json` et de déposer ses ima
 ```
 
 - `id` : minuscules, chiffres et tirets, unique (sert d'ancre dans la page).
-- `price` : nombre, identique sur Etsy et Leboncoin (frais de port en plus).
+- `priceFrom` : nombre, prix « à partir de » affiché sous la forme « Dès 49 € » (le plus bas des prix pratiqués, ici celui de Leboncoin). Le prix Etsy n'est jamais affiché car il varie avec les promotions ; chaque plateforme affiche son prix exact et ses frais de port, ce que rappelle la mention « Prix exact et frais de port sur chaque plateforme. ». C'est aussi le `price` de l'offre JSON-LD, dont l'`url` est `leboncoinUrl` (ou `etsyUrl` si elle est vide).
 - `leboncoinUrl` : laisser vide (`""`) tant qu'il n'y a pas d'annonce, le bouton « Voir sur Leboncoin » n'est alors pas affiché.
 - Lien « Leboncoin » de l'en-tête (masqué sur mobile, comme dans Figma) : tant qu'il n'y a qu'un produit, il pointe vers son `leboncoinUrl` ; à partir de deux produits, il n'apparaît que si `leboncoinShopUrl` (page vendeur) est renseignée dans `data/site.json`. Sans URL, il est masqué.
 - `images` : chemins relatifs à `public/`. La première image est la photo principale et sert d'image de partage pour le premier produit. Une image peut aussi être une simple chaîne (`"images/x.jpg"`) ; l'alt est alors généré automatiquement, mieux vaut en écrire un descriptif.
@@ -57,10 +57,11 @@ Il suffit d'ajouter une entrée dans `data/products.json` et de déposer ses ima
 
 ## Ce que vérifie `check.mjs`
 
-- chaque produit a un nom, un prix, une `etsyUrl` valide et au moins une image existante dans `public/` ;
+- chaque produit a un nom, un `priceFrom`, une `etsyUrl` valide et au moins une image existante dans `public/` ;
 - `dist/` contient `index.html`, `styles.css`, `sitemap.xml`, `robots.txt` et `.nojekyll` ;
 - `canonical`, `og:url`, `og:image`, sitemap et robots.txt pointent vers `BASE_URL`, et aucun chemin du HTML ou du CSS ne commence par `/` ;
 - `index.html` est en `lang="fr"`, n'embarque aucun script exécutable (seul le JSON-LD), chaque image a `alt`, `width` et `height`, et le nombre de boutons Etsy / Leboncoin correspond aux données ;
+- « Dès 69 € » (prix `priceFrom` de chaque produit) et la mention « Prix exact et frais de port sur chaque plateforme. » sont présents, « Même prix » est absent de `dist/`, et chaque JSON-LD contient un seul `Offer` (`priceFrom`, EUR, InStock, `leboncoinUrl` ou à défaut `etsyUrl`) ;
 - aucun mot interdit (« 3D », « impression », « imprimé », « imprimante », insensible à la casse et aux accents) dans les fichiers texte de `dist/`.
 
 Le script se termine avec le code 1 au moindre échec. Il est lancé après le build par la CI (`.github/workflows/ci.yml`) et par le workflow de déploiement.
