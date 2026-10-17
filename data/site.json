@@ -2,12 +2,12 @@
   "name": "Meltro Studio",
   "title": "Meltro Studio — Objets de décoration conçus en Savoie",
   "description": "Meltro Studio conçoit et fabrique en Savoie des objets de décoration originaux, en petites séries. Collection d'automne : citrouille lumineuse d'Halloween 36 cm. Achat sur Etsy ou Leboncoin.",
-  "baseUrl": "https://pockemon.github.io/meltro-studio",
-  "customDomain": "",
+  "baseUrl": "https://meltrostudio.com",
+  "customDomain": "meltrostudio.com",
   "etsyShopUrl": "https://www.etsy.com/shop/MeltroStudio",
   "leboncoinShopUrl": "",
   "nav": {
-    "collection": "La collection",
+    "collections": "Les collections",
     "atelier": "L’atelier",
     "commander": "Comment commander",
     "etsyDesktop": "Boutique Etsy",
@@ -24,50 +24,95 @@
     },
     "primaryCta": "Voir la collection  →",
     "etsyCta": "Boutique Etsy",
-    "guarantees": ["Conçu en Savoie", "Petites séries", "Expédié sous 1 à 2 jours"],
-    "stack": { "product": "citrouille-36", "images": [3, 4, 0] }
+    "guarantees": [
+      "Conçu en Savoie",
+      "Petites séries",
+      "Expédié sous 1 à 2 jours"
+    ],
+    "stack": {
+      "product": "citrouille-36",
+      "images": [
+        3,
+        4,
+        0
+      ]
+    }
   },
   "atouts": [
     {
       "icon": "main",
       "title": "Conçu en Savoie",
-      "text": { "d": "Dessinées à l’atelier, fabriquées en Savoie.", "m": "Dessins originaux" }
+      "text": {
+        "d": "Dessinées à l’atelier, fabriquées en Savoie.",
+        "m": "Dessins originaux"
+      }
     },
     {
       "icon": "lumiere",
       "title": "Petites séries",
-      "text": { "d": "Chaque modèle existe en quantité limitée.", "m": "Quantités limitées" }
+      "text": {
+        "d": "Chaque modèle existe en quantité limitée.",
+        "m": "Quantités limitées"
+      }
     },
     {
       "icon": "pluie",
       "title": "Matières solides",
-      "text": { "d": "Légères, résistantes, pensées pour durer.", "m": "Pensées pour durer" }
+      "text": {
+        "d": "Légères, résistantes, pensées pour durer.",
+        "m": "Pensées pour durer"
+      }
     },
     {
       "icon": "bouclier",
       "title": "Achat serein",
-      "text": { "d": "Paiement sécurisé Etsy, ou main propre via Leboncoin.", "m": "Etsy ou main propre" }
+      "text": {
+        "d": "Paiement sécurisé Etsy, ou main propre via Leboncoin.",
+        "m": "Etsy ou main propre"
+      }
     }
   ],
-  "collection": {
-    "eyebrow": "La collection",
-    "title": "Nos pièces du moment",
+  "collections": {
+    "eyebrow": "Les collections",
+    "titleLine1": "Une collection par saison,",
+    "titleLine2": "et une pour toute l’année.",
     "text": "Chaque pièce est disponible sur Etsy et sur Leboncoin. Les séries sont courtes : quand c’est parti, c’est parti.",
-    "cardEyebrowMobile": "La collection",
+    "statusSoon": "Bientôt",
+    "statusLimited": "Édition limitée",
+    "pieceOne": "pièce",
+    "pieceMany": "pièces",
+    "ctaOpen": "Découvrir la collection  →",
+    "ctaSoon": "Être prévenu sur Etsy  →"
+  },
+  "collectionPage": {
+    "breadcrumbHome": "Accueil",
+    "breadcrumbRoot": "Collections",
+    "soonSuffix": "bientôt",
     "cardCta": "Voir la pièce  →",
     "columns": 3,
     "soon": [
       {
-        "title": ["Prochaine pièce", "en préparation"],
+        "title": [
+          "Prochaine pièce",
+          "en préparation"
+        ],
         "text": "Suivez la boutique sur Etsy pour la voir en premier.",
         "cta": "Suivre sur Etsy"
       },
       {
-        "title": ["Et d’autres", "idées à venir"],
+        "title": [
+          "Et d’autres",
+          "idées à venir"
+        ],
         "text": "Suivez la boutique sur Etsy pour la voir en premier.",
         "cta": "Suivre sur Etsy"
       }
-    ]
+    ],
+    "empty": {
+      "title": "Premières pièces bientôt",
+      "text": "Cette collection prépare ses premières pièces. Suivez la boutique sur Etsy pour être prévenu dès leur sortie.",
+      "cta": "Suivre sur Etsy"
+    }
   },
   "atelier": {
     "eyebrow": "L’atelier",
@@ -77,11 +122,23 @@
       "d": "Chaque objet Meltro naît d’un dessin original à l’atelier, près d’Aix-les-Bains. Nous le fabriquons ensuite en petites quantités, avec des matières légères et résistantes, puis nous le vérifions et l’emballons avec soin avant de l’expédier.",
       "m": "Chaque objet naît d’un dessin original à l’atelier, près d’Aix-les-Bains, puis il est fabriqué en petite quantité avec des matières légères et résistantes."
     },
-    "photo": { "product": "citrouille-36", "image": 3 },
+    "photo": {
+      "product": "citrouille-36",
+      "image": 3
+    },
     "figures": [
-      { "value": "100 %", "label": "dessins originaux" },
-      { "value": "1 à 2 j", "label": "pour expédier" },
-      { "value": "2", "label": "façons de commander" }
+      {
+        "value": "100 %",
+        "label": "dessins originaux"
+      },
+      {
+        "value": "1 à 2 j",
+        "label": "pour expédier"
+      },
+      {
+        "value": "2",
+        "label": "façons de commander"
+      }
     ]
   },
   "steps": {
@@ -98,7 +155,10 @@
       {
         "title": "Commandez où vous préférez",
         "text": {
-          "d": ["Etsy : paiement sécurisé et livraison à domicile.", "Leboncoin : envoi ou remise en main propre en Savoie."],
+          "d": [
+            "Etsy : paiement sécurisé et livraison à domicile.",
+            "Leboncoin : envoi ou remise en main propre en Savoie."
+          ],
           "m": "Etsy : paiement sécurisé et livraison. Leboncoin : envoi ou main propre en Savoie."
         }
       },
@@ -115,17 +175,24 @@
     "cta": "Voir la collection  →"
   },
   "product": {
-    "breadcrumbRoot": "La collection",
+    "breadcrumbRoot": "Les collections",
     "buyTitle": "Où commander",
     "etsyLabel": "Commander sur Etsy",
-    "etsySub": { "d": "Paiement sécurisé · livraison à domicile", "m": "Paiement sécurisé · livraison" },
+    "etsySub": {
+      "d": "Paiement sécurisé · livraison à domicile",
+      "m": "Paiement sécurisé · livraison"
+    },
     "leboncoinLabel": "Voir sur Leboncoin",
     "leboncoinSub": {
       "d": "Envoi ou remise en main propre en Savoie",
       "m": "Envoi ou main propre en Savoie"
     },
     "priceNote": "Prix et frais de port selon la plateforme.",
-    "reassurance": ["Conçue en Savoie", "Expédiée sous 1 à 2 jours", "Petite série"],
+    "reassurance": [
+      "Conçue en Savoie",
+      "Expédiée sous 1 à 2 jours",
+      "Petite série"
+    ],
     "storyEyebrow": "L’histoire de la pièce",
     "detailsTitle": "Dans le détail",
     "faqTitle": "Questions fréquentes",
