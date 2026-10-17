@@ -1,0 +1,39 @@
+[
+  {
+    "id": "citrouille-36",
+    "name": "Citrouille lumineuse",
+    "collection": "Halloween",
+    "detail": "36 × 36 cm · PETG · guirlande LED à piles fournie",
+    "price": 69,
+    "currency": "EUR",
+    "description": "Une grande citrouille au visage découpé, avec son couvercle amovible. Allumée, elle diffuse une lumière chaude et douce, sans flamme. Parfaite sur une table, une cheminée ou dans l'entrée, pour Halloween et tout l'automne.",
+    "etsyUrl": "https://www.etsy.com/fr/listing/4597262080/citrouille-lumineuse-halloween-36-cm",
+    "leboncoinUrl": "",
+    "images": [
+      {
+        "src": "images/citrouille-36-1.jpg",
+        "alt": "Citrouille lumineuse d'Halloween de face, posée sur une table sombre, visage découpé éclairé de l'intérieur"
+      },
+      {
+        "src": "images/citrouille-36-2.jpg",
+        "alt": "Citrouille lumineuse orange vue de trois quarts, avec son bandeau rouge et son couvercle en place"
+      },
+      {
+        "src": "images/citrouille-36-3.jpg",
+        "alt": "Gros plan sur le visage découpé de la citrouille, yeux, nez et large sourire éclairés d'une lumière chaude"
+      },
+      {
+        "src": "images/citrouille-36-4.jpg",
+        "alt": "Citrouille lumineuse vue de côté dans la pénombre, la lumière traverse le sourire et les yeux"
+      },
+      {
+        "src": "images/citrouille-36-5.jpg",
+        "alt": "Citrouille ouverte, couvercle retiré au-dessus, guirlande LED allumée visible à l'intérieur"
+      },
+      {
+        "src": "images/citrouille-36-6.jpg",
+        "alt": "Citrouille lumineuse vue du dessus, ouverture éclairée par la guirlande LED, visage sur le côté"
+      }
+    ]
+  }
+]
