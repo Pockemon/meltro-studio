@@ -137,10 +137,10 @@
       "20 cm",
       "Bougie LED fournie",
       "Surface texturée",
-      "Couvercle amovible"
+      "Dedans comme dehors"
     ],
     "quote": "Le petit format qui fait son effet, seul ou en groupe.",
-    "story": "Elle a les côtes, la tige et le grain d’une vraie citrouille, sans jamais s’abîmer. Son couvercle se soulève pour glisser la bougie LED. Seule sur une étagère ou en groupe avec la grande citrouille, elle fait son effet.",
+    "story": "Elle a les côtes, la tige et le grain d’une vraie citrouille, sans jamais s’abîmer. Son couvercle se soulève pour glisser la bougie LED. Dedans comme dehors, elle supporte la pluie. Seule sur une étagère ou en groupe avec la grande citrouille, elle fait son effet.",
     "specs": [
       {
         "label": "Dimensions",
@@ -156,7 +156,7 @@
       },
       {
         "label": "Usage",
-        "value": "Intérieur"
+        "value": "Intérieur et extérieur"
       },
       {
         "label": "Poids",
@@ -170,7 +170,7 @@
       },
       {
         "q": "Peut-on la mettre dehors ?",
-        "a": "Nous la conseillons à l’intérieur ou à l’abri de la pluie."
+        "a": "Oui. La citrouille et sa bougie LED supportent la pluie : perron, allée ou rebord de fenêtre."
       },
       {
         "q": "Comment l’allumer ?",
