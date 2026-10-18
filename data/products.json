@@ -117,5 +117,106 @@
         "detailCaption": "D’en haut, la lueur déborde."
       }
     ]
+  },
+  {
+    "id": "citrouille-20",
+    "slug": "citrouille-bougie",
+    "name": "Citrouille bougie",
+    "collection": "halloween",
+    "badge": "Nouveauté",
+    "featured": false,
+    "priceFrom": 29,
+    "currency": "EUR",
+    "description": "Citrouille de 20 cm au visage de squelette rieur, bougie LED fournie.",
+    "etsyUrl": "https://www.etsy.com/fr/listing/4597870167",
+    "leboncoinUrl": "",
+    "tagline": "Citrouille de 20 cm au visage de squelette rieur, bougie LED fournie.",
+    "cardTagline": "Citrouille de 20 cm au visage de squelette rieur, bougie LED fournie.",
+    "pitch": "Une petite citrouille de 20 cm au visage de squelette rieur : grands yeux ronds et rangée de dents ajourées. Glissez la bougie LED fournie, et sa lumière chaude passe par chaque ouverture, comme une vraie bougie, sans flamme ni cire.",
+    "highlights": [
+      "20 cm",
+      "Bougie LED fournie",
+      "Surface texturée",
+      "Dedans comme dehors"
+    ],
+    "quote": "Le petit format qui fait son effet, seul ou en groupe.",
+    "story": "Elle a les côtes, la tige et le grain d’une vraie citrouille, sans jamais s’abîmer. Son couvercle se soulève pour glisser la bougie LED. Dedans comme dehors, elle supporte la pluie. Seule sur une étagère ou en groupe avec la grande citrouille, elle fait son effet.",
+    "specs": [
+      {
+        "label": "Dimensions",
+        "value": "environ 20 cm de diamètre"
+      },
+      {
+        "label": "Matière",
+        "value": "PETG, surface texturée réaliste"
+      },
+      {
+        "label": "Lumière",
+        "value": "Bougie LED à piles, fournie"
+      },
+      {
+        "label": "Usage",
+        "value": "Intérieur et extérieur"
+      },
+      {
+        "label": "Poids",
+        "value": "250 g"
+      }
+    ],
+    "faq": [
+      {
+        "q": "La bougie est-elle fournie ?",
+        "a": "Oui, une bougie LED à piles pour un look authentique, sans flamme."
+      },
+      {
+        "q": "Peut-on la mettre dehors ?",
+        "a": "Oui. La citrouille et sa bougie LED supportent la pluie : perron, allée ou rebord de fenêtre."
+      },
+      {
+        "q": "Comment l’allumer ?",
+        "a": "Soulevez le couvercle, posez la bougie allumée, refermez.",
+        "mobile": false
+      },
+      {
+        "q": "Comment la recevoir ?",
+        "a": {
+          "d": "Sur Etsy, livraison à domicile avec paiement sécurisé. Sur Leboncoin, envoi ou remise en main propre en Savoie.",
+          "m": "Etsy : livraison à domicile. Leboncoin : envoi ou main propre en Savoie."
+        }
+      }
+    ],
+    "nightImage": 1,
+    "galleryImages": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "detailImages": [
+      1,
+      2,
+      3
+    ],
+    "images": [
+      {
+        "src": "images/citrouille-20-1.jpg",
+        "alt": "Citrouille bougie de 20 cm vue de face, posée sur un sol gris, avec ses grands yeux ronds et sa rangée de dents ajourées"
+      },
+      {
+        "src": "images/citrouille-20-2.jpg",
+        "alt": "Citrouille bougie orange vue de trois quarts, avec ses côtes, sa tige et son visage de squelette rieur",
+        "detailCaption": "De trois quarts : le relief des côtes."
+      },
+      {
+        "src": "images/citrouille-20-3.jpg",
+        "alt": "Gros plan sur le visage de la citrouille bougie : grands yeux ronds, dents ajourées et surface texturée",
+        "detailCaption": "Le regard qui fait sourire."
+      },
+      {
+        "src": "images/citrouille-20-4.jpg",
+        "alt": "Citrouille bougie ouverte, couvercle soulevé au-dessus du corps, intérieur orange visible",
+        "detailCaption": "Le couvercle se soulève pour la bougie."
+      }
+    ]
   }
 ]
