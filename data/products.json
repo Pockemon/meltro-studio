@@ -218,5 +218,617 @@
         "detailCaption": "Le couvercle se soulève pour la bougie."
       }
     ]
+  },
+  {
+    "id": "maisonnette-12",
+    "slug": "maisonnette-enneigee",
+    "name": "Maisonnette enneigée",
+    "collection": "noel",
+    "badge": "Nouveauté",
+    "featured": false,
+    "priceFrom": 19,
+    "currency": "EUR",
+    "description": "Maisonnette de Noël de 12 cm au toit enneigé, perchée sur son rocher.",
+    "etsyUrl": "https://www.etsy.com/fr/listing/4607938866",
+    "leboncoinUrl": "https://www.leboncoin.fr/ad/decoration/3300683214",
+    "tagline": "Maisonnette de Noël de 12 cm au toit enneigé, perchée sur son rocher.",
+    "cardTagline": "Maisonnette de 12 cm au toit enneigé, perchée sur son rocher.",
+    "pitch": "Une maisonnette de Noël au toit couvert de neige, perchée sur son rocher : cheminée, lucarne, petit balcon à barrière et pont de pierre. Tout en blanc, comme au lendemain d’une nuit de neige.",
+    "highlights": [
+      "12 cm de haut",
+      "Toit enneigé",
+      "Pont de pierre",
+      "Pour l’intérieur"
+    ],
+    "quote": "Un petit village d’hiver, à poser où l’on veut.",
+    "story": "Chaque détail se découvre en tournant autour : la cheminée, la lucarne sous la neige, la barrière du balcon, le pont de pierre au pied du rocher. Sur une étagère, une cheminée ou au pied du sapin, seule ou avec d’autres pièces pour composer un village d’hiver.",
+    "specs": [
+      {
+        "label": "Dimensions",
+        "value": "environ 12 cm de haut"
+      },
+      {
+        "label": "Couleur",
+        "value": "Blanc"
+      },
+      {
+        "label": "Matière",
+        "value": "PLA"
+      },
+      {
+        "label": "Usage",
+        "value": "Intérieur"
+      },
+      {
+        "label": "Poids",
+        "value": "environ 120 g"
+      }
+    ],
+    "faq": [
+      {
+        "q": "Où la poser ?",
+        "a": "Sur une étagère, une cheminée, un rebord de fenêtre ou au pied du sapin."
+      },
+      {
+        "q": "Peut-on la mettre dehors ?",
+        "a": "Non, elle est pensée pour l’intérieur."
+      },
+      {
+        "q": "Comment l’entretenir ?",
+        "a": "Un coup de chiffon sec ou de pinceau doux suffit.",
+        "mobile": false
+      },
+      {
+        "q": "Comment la recevoir ?",
+        "a": {
+          "d": "Sur Etsy, livraison à domicile avec paiement sécurisé. Sur Leboncoin, envoi ou remise en main propre en Savoie.",
+          "m": "Etsy : livraison à domicile. Leboncoin : envoi ou main propre en Savoie."
+        }
+      }
+    ],
+    "nightImage": 0,
+    "galleryImages": [
+      0
+    ],
+    "detailImages": [
+      0
+    ],
+    "images": [
+      {
+        "src": "images/maisonnette-enneigee-1.jpg",
+        "alt": "Maisonnette de Noël blanche au toit enneigé, perchée sur un rocher avec cheminée, lucarne, balcon et pont de pierre, posée sur un bloc de pierre claire",
+        "detailCaption": "Cheminée, lucarne et pont de pierre."
+      }
+    ]
+  },
+  {
+    "id": "renne-chocolat",
+    "slug": "renne-porte-chocolat",
+    "name": "Renne porte-chocolat",
+    "collection": "noel",
+    "badge": "Nouveauté",
+    "featured": false,
+    "priceFrom": 4,
+    "currency": "EUR",
+    "description": "Tête de renne aux grands bois qui tient un chocolat rond de 3 cm, à poser à chaque assiette.",
+    "etsyUrl": "https://www.etsy.com/fr/listing/4607919887",
+    "leboncoinUrl": "https://www.leboncoin.fr/ad/decoration/3300683270",
+    "tagline": "Une tête de renne aux grands bois qui tient un chocolat rond, à poser à chaque assiette.",
+    "cardTagline": "Un renne aux grands bois qui tient un chocolat rond.",
+    "pitch": "Une tête de renne aux grands bois, avec un rond au centre pour y glisser un chocolat de 3 cm (type Ferrero Rocher). Posé devant chaque assiette, il fait un marque-place et un petit cadeau d’accueil pour vos invités.",
+    "highlights": [
+      "Pour chocolat rond de 3 cm",
+      "7,5 x 8,5 cm",
+      "Prix à l’unité",
+      "Chocolat non fourni"
+    ],
+    "quote": "Un renne par invité, et la table est prête.",
+    "story": "Il tient debout tout seul, le chocolat bien calé dans son rond. Un par assiette pour le repas de Noël, dans le calendrier de l’Avent ou sur la table des enfants. Vendu à l’unité : prenez-en autant que d’invités.",
+    "specs": [
+      {
+        "label": "Dimensions",
+        "value": "environ 7,5 x 8,5 cm"
+      },
+      {
+        "label": "Couleur",
+        "value": "Blanc"
+      },
+      {
+        "label": "Matière",
+        "value": "PLA"
+      },
+      {
+        "label": "Chocolat",
+        "value": "Rond de 3 cm, non fourni"
+      },
+      {
+        "label": "Poids",
+        "value": "environ 20 g"
+      }
+    ],
+    "faq": [
+      {
+        "q": "Le chocolat est-il fourni ?",
+        "a": "Non. Le renne accueille un chocolat rond de 3 cm, type Ferrero Rocher, à ajouter vous-même."
+      },
+      {
+        "q": "Peut-on en commander plusieurs ?",
+        "a": "Oui, il est vendu à l’unité : choisissez la quantité pour votre table."
+      },
+      {
+        "q": "À quoi sert-il ?",
+        "a": "Marque-place, petit cadeau d’accueil, calendrier de l’Avent ou décoration de table.",
+        "mobile": false
+      },
+      {
+        "q": "Comment le recevoir ?",
+        "a": {
+          "d": "Sur Etsy, livraison à domicile avec paiement sécurisé. Sur Leboncoin, envoi ou remise en main propre en Savoie.",
+          "m": "Etsy : livraison à domicile. Leboncoin : envoi ou main propre en Savoie."
+        }
+      }
+    ],
+    "nightImage": 0,
+    "galleryImages": [
+      0,
+      1,
+      2
+    ],
+    "detailImages": [
+      0,
+      1,
+      2
+    ],
+    "images": [
+      {
+        "src": "images/renne-porte-chocolat-1.jpg",
+        "alt": "Renne porte-chocolat blanc tenant un chocolat doré, posé sur un bloc de pierre claire",
+        "detailCaption": "Un chocolat bien calé au centre."
+      },
+      {
+        "src": "images/renne-porte-chocolat-2.jpg",
+        "alt": "Renne porte-chocolat blanc vu de face avec ses grands bois, un chocolat doré au centre",
+        "detailCaption": "De face : les grands bois."
+      },
+      {
+        "src": "images/renne-porte-chocolat-3.jpg",
+        "alt": "Renne porte-chocolat posé sur une table de fête, à côté d’une bougie et de branches de sapin",
+        "detailCaption": "Sur la table de Noël."
+      }
+    ]
+  },
+  {
+    "id": "etagere-hexa",
+    "slug": "etagere-hexagonale",
+    "name": "Étagère hexagonale",
+    "collection": "everyday",
+    "badge": "Nouveauté",
+    "featured": false,
+    "priceFrom": 3,
+    "currency": "EUR",
+    "description": "Petite étagère murale en hexagone de 12 cm, en bleu ou en gris.",
+    "etsyUrl": "https://www.etsy.com/fr/listing/4607920949",
+    "leboncoinUrl": "https://www.leboncoin.fr/ad/decoration/3300683335",
+    "tagline": "Une petite étagère murale en hexagone, à aligner ou à assembler en nid d’abeille.",
+    "cardTagline": "Petite étagère murale en hexagone, bleu ou gris.",
+    "pitch": "Une petite étagère murale en forme d’hexagone, pour une plante grasse, une bougie ou un objet que l’on aime. Seule, alignée ou assemblée en nid d’abeille, elle habille un mur en un instant.",
+    "highlights": [
+      "12 cm",
+      "Bleu ou gris",
+      "Prix à l’unité",
+      "Environ 50 g"
+    ],
+    "quote": "Une, trois ou dix : le mur se compose à votre façon.",
+    "story": "Légère, elle se fixe facilement au mur. Mélangez les couleurs, alignez-les ou serrez-les en nid d’abeille. La fixation est à prévoir : une vis, un clou ou un adhésif double face.",
+    "specs": [
+      {
+        "label": "Dimensions",
+        "value": "12 cm"
+      },
+      {
+        "label": "Couleurs",
+        "value": "Bleu ou gris"
+      },
+      {
+        "label": "Matière",
+        "value": "PLA"
+      },
+      {
+        "label": "Fixation",
+        "value": "Non fournie"
+      },
+      {
+        "label": "Poids",
+        "value": "environ 50 g"
+      }
+    ],
+    "faq": [
+      {
+        "q": "La fixation est-elle fournie ?",
+        "a": "Non. Une vis, un clou ou un adhésif double face suffit."
+      },
+      {
+        "q": "Peut-on choisir la couleur ?",
+        "a": "Oui, bleu ou gris. Précisez-la à la commande."
+      },
+      {
+        "q": "Peut-on en commander plusieurs ?",
+        "a": "Oui, elle est vendue à l’unité.",
+        "mobile": false
+      },
+      {
+        "q": "Comment la recevoir ?",
+        "a": {
+          "d": "Sur Etsy, livraison à domicile avec paiement sécurisé. Sur Leboncoin, envoi ou remise en main propre en Savoie.",
+          "m": "Etsy : livraison à domicile. Leboncoin : envoi ou main propre en Savoie."
+        }
+      }
+    ],
+    "nightImage": 0,
+    "galleryImages": [
+      0,
+      1
+    ],
+    "detailImages": [
+      0,
+      1
+    ],
+    "images": [
+      {
+        "src": "images/etagere-hexagonale-1.jpg",
+        "alt": "Trois étagères hexagonales grises et bleue fixées au mur, avec une plante, un bougeoir et un vase blanc",
+        "detailCaption": "Au mur, avec plante et bougeoir."
+      },
+      {
+        "src": "images/etagere-hexagonale-2.jpg",
+        "alt": "Trois étagères hexagonales, une bleue et deux grises, alignées sur fond clair",
+        "detailCaption": "En bleu ou en gris."
+      }
+    ]
+  },
+  {
+    "id": "masque-crane",
+    "slug": "masque-crane",
+    "name": "Masque crâne",
+    "collection": "everyday",
+    "badge": "Nouveauté",
+    "featured": false,
+    "priceFrom": 19,
+    "currency": "EUR",
+    "description": "Demi-masque façon crâne de bête, avec crocs et fissures sculptés, taille adulte.",
+    "etsyUrl": "https://www.etsy.com/fr/listing/4607942768",
+    "leboncoinUrl": "https://www.leboncoin.fr/ad/accessoires_bagagerie/3300683387",
+    "tagline": "Un demi-masque façon crâne de bête, avec crocs et fissures sculptés.",
+    "cardTagline": "Demi-masque crâne de bête, taille adulte.",
+    "pitch": "Un demi-masque façon crâne de bête : crocs acérés, arcades marquées et fissures sculptées. Blanc cassé, il se porte tel quel ou se peint à votre goût.",
+    "highlights": [
+      "Taille adulte",
+      "Crocs sculptés",
+      "Se peint facilement",
+      "Environ 180 g"
+    ],
+    "quote": "De quoi marquer les esprits à la prochaine soirée costumée.",
+    "story": "Des fentes sur les côtés permettent de passer un élastique ou un ruban. Pour Halloween, un carnaval, une soirée costumée ou un cosplay, et entre deux fêtes, accroché au mur.",
+    "specs": [
+      {
+        "label": "Taille",
+        "value": "Adulte"
+      },
+      {
+        "label": "Couleur",
+        "value": "Blanc cassé"
+      },
+      {
+        "label": "Matière",
+        "value": "PLA"
+      },
+      {
+        "label": "Attache",
+        "value": "Fentes pour élastique ou ruban (non fourni)"
+      },
+      {
+        "label": "Poids",
+        "value": "environ 180 g"
+      }
+    ],
+    "faq": [
+      {
+        "q": "L’élastique est-il fourni ?",
+        "a": "Non. Les fentes latérales acceptent un élastique ou un ruban."
+      },
+      {
+        "q": "Peut-on le peindre ?",
+        "a": "Oui, sa surface blanc cassé se peint facilement."
+      },
+      {
+        "q": "Pour quelles occasions ?",
+        "a": "Halloween, carnaval, soirée costumée, cosplay, ou en décoration murale.",
+        "mobile": false
+      },
+      {
+        "q": "Comment le recevoir ?",
+        "a": {
+          "d": "Sur Etsy, livraison à domicile avec paiement sécurisé. Sur Leboncoin, envoi ou remise en main propre en Savoie.",
+          "m": "Etsy : livraison à domicile. Leboncoin : envoi ou main propre en Savoie."
+        }
+      }
+    ],
+    "nightImage": 0,
+    "galleryImages": [
+      0
+    ],
+    "detailImages": [
+      0
+    ],
+    "images": [
+      {
+        "src": "images/masque-crane-1.jpg",
+        "alt": "Masque crâne blanc à crocs posé sur une table en bois sombre, entouré de bougies et de feuilles d’automne",
+        "detailCaption": "Crocs, arcades et fissures sculptés."
+      }
+    ]
+  },
+  {
+    "id": "lampe-vague",
+    "slug": "lampe-vague",
+    "name": "Lampe Vague",
+    "collection": "everyday",
+    "badge": "Nouveauté",
+    "featured": false,
+    "priceFrom": 39,
+    "currency": "EUR",
+    "description": "Lampe d’ambiance à poser : cadre noir et vague blanche en relief éclairée par un ruban LED.",
+    "etsyUrl": "https://www.etsy.com/fr/listing/4607943994",
+    "leboncoinUrl": "https://www.leboncoin.fr/ad/decoration/3300683447",
+    "tagline": "Un cadre noir et une vague blanche en relief, éclairée par un ruban LED.",
+    "cardTagline": "Cadre noir et vague blanche lumineuse.",
+    "pitch": "Une lampe d’ambiance à poser : un cadre noir aux angles arrondis et, à l’intérieur, une vague blanche en relief que la lumière LED fait ressortir couche après couche. Une lumière douce pour le soir.",
+    "highlights": [
+      "20 x 8 cm",
+      "Ruban LED intégré",
+      "Câble USB et interrupteur",
+      "Prise USB"
+    ],
+    "quote": "La lumière glisse sur la vague, et la pièce change d’humeur.",
+    "story": "Le ruban LED est intégré au cadre ; le câble USB et l’interrupteur sont fournis. Elle se branche sur une prise USB : un chargeur de téléphone convient (adaptateur secteur non fourni). Sur une table de chevet, un bureau ou un buffet.",
+    "specs": [
+      {
+        "label": "Dimensions",
+        "value": "20 x 8 cm"
+      },
+      {
+        "label": "Couleurs",
+        "value": "Cadre noir, vague blanche"
+      },
+      {
+        "label": "Matière",
+        "value": "PLA"
+      },
+      {
+        "label": "Lumière",
+        "value": "Ruban LED intégré"
+      },
+      {
+        "label": "Alimentation",
+        "value": "Câble USB et interrupteur fournis, adaptateur secteur non fourni"
+      }
+    ],
+    "faq": [
+      {
+        "q": "Comment la brancher ?",
+        "a": "Sur une prise USB. Un chargeur de téléphone convient ; l’adaptateur secteur n’est pas fourni."
+      },
+      {
+        "q": "Y a-t-il un interrupteur ?",
+        "a": "Oui, il est fourni avec le câble USB."
+      },
+      {
+        "q": "Où la poser ?",
+        "a": "Sur une table de chevet, un bureau ou un buffet.",
+        "mobile": false
+      },
+      {
+        "q": "Comment la recevoir ?",
+        "a": {
+          "d": "Sur Etsy, livraison à domicile avec paiement sécurisé. Sur Leboncoin, envoi ou remise en main propre en Savoie.",
+          "m": "Etsy : livraison à domicile. Leboncoin : envoi ou main propre en Savoie."
+        }
+      }
+    ],
+    "nightImage": 0,
+    "galleryImages": [
+      0,
+      1,
+      2
+    ],
+    "detailImages": [
+      0,
+      1,
+      2
+    ],
+    "images": [
+      {
+        "src": "images/lampe-vague-1.jpg",
+        "alt": "Lampe Vague allumée sur fond clair : cadre noir arrondi et vague blanche en relief éclairée",
+        "detailCaption": "La vague, couche après couche."
+      },
+      {
+        "src": "images/lampe-vague-2.jpg",
+        "alt": "Lampe Vague allumée sur une table de chevet, à côté d’un lit et de livres",
+        "detailCaption": "Sur la table de chevet."
+      },
+      {
+        "src": "images/lampe-vague-3.jpg",
+        "alt": "Lampe Vague allumée sur un buffet en bois dans un salon",
+        "detailCaption": "Sur un buffet."
+      }
+    ]
+  },
+  {
+    "id": "ampli-grand",
+    "slug": "amplificateur-smartphone-grand",
+    "name": "Amplificateur passif, grand modèle",
+    "collection": "everyday",
+    "badge": "Pièce unique",
+    "featured": false,
+    "priceFrom": 8,
+    "currency": "EUR",
+    "description": "Amplificateur de son passif pour smartphone, 15 x 15 x 20 cm, gris.",
+    "etsyUrl": "https://www.etsy.com/fr/listing/4607924901",
+    "leboncoinUrl": "https://www.leboncoin.fr/ad/photo_audio_video/3300683074",
+    "tagline": "Posez le téléphone, le pavillon fait le reste : sans électricité ni Bluetooth.",
+    "cardTagline": "Ampli passif pour smartphone, 15 x 15 x 20 cm, gris.",
+    "pitch": "Un amplificateur de son passif pour smartphone. Posez le téléphone dans la fente du dessus : le pavillon amplifie le son et le projette vers l’avant. Sans électricité, sans Bluetooth, sans pile.",
+    "highlights": [
+      "15 x 15 x 20 cm",
+      "Sans électricité",
+      "Sans Bluetooth",
+      "Pièce unique"
+    ],
+    "quote": "Rien à brancher, rien à appairer : on pose et on écoute.",
+    "story": "Un cube gris aux angles arrondis, avec un grand pavillon d’un côté et des ouïes de l’autre. Pour la musique au bureau, une recette en cuisine ou un podcast dans la chambre. Un petit modèle noir existe aussi.",
+    "specs": [
+      {
+        "label": "Dimensions",
+        "value": "15 x 15 x 20 cm"
+      },
+      {
+        "label": "Couleur",
+        "value": "Gris"
+      },
+      {
+        "label": "Matière",
+        "value": "PLA"
+      },
+      {
+        "label": "Fonctionnement",
+        "value": "Passif : sans électricité, sans Bluetooth"
+      },
+      {
+        "label": "Poids",
+        "value": "environ 800 g"
+      }
+    ],
+    "faq": [
+      {
+        "q": "Faut-il le brancher ?",
+        "a": "Non. Il fonctionne sans électricité, sans Bluetooth et sans pile."
+      },
+      {
+        "q": "Comment l’utiliser ?",
+        "a": "Posez le téléphone dans la fente du dessus, le pavillon projette le son vers l’avant."
+      },
+      {
+        "q": "Existe-t-il en plus petit ?",
+        "a": "Oui, un petit modèle noir d’environ 10,5 x 10,5 x 14 cm.",
+        "mobile": false
+      },
+      {
+        "q": "Comment le recevoir ?",
+        "a": {
+          "d": "Sur Etsy, livraison à domicile avec paiement sécurisé. Sur Leboncoin, envoi ou remise en main propre en Savoie.",
+          "m": "Etsy : livraison à domicile. Leboncoin : envoi ou main propre en Savoie."
+        }
+      }
+    ],
+    "nightImage": 0,
+    "galleryImages": [
+      0
+    ],
+    "detailImages": [
+      0
+    ],
+    "images": [
+      {
+        "src": "images/ampli-passif-grand-1.jpg",
+        "alt": "Amplificateur passif gris en forme de cube avec un grand pavillon rond et des ouïes, fente pour téléphone sur le dessus",
+        "detailCaption": "Le pavillon et les ouïes."
+      }
+    ]
+  },
+  {
+    "id": "ampli-petit",
+    "slug": "amplificateur-smartphone-petit",
+    "name": "Amplificateur passif, petit modèle",
+    "collection": "everyday",
+    "badge": "Pièce unique",
+    "featured": false,
+    "priceFrom": 5,
+    "currency": "EUR",
+    "description": "Amplificateur de son passif pour smartphone, environ 10,5 x 10,5 x 14 cm, noir.",
+    "etsyUrl": "https://www.etsy.com/fr/listing/4607946116",
+    "leboncoinUrl": "https://www.leboncoin.fr/ad/photo_audio_video/3300683157",
+    "tagline": "Le même principe en format compact : posez le téléphone, le son porte plus loin.",
+    "cardTagline": "Ampli passif pour smartphone, format compact, noir.",
+    "pitch": "Un amplificateur de son passif pour smartphone, en format compact. Posez le téléphone dans la fente du dessus : le pavillon amplifie le son et le projette vers l’avant. Sans électricité, sans Bluetooth, sans pile.",
+    "highlights": [
+      "Environ 10,5 x 10,5 x 14 cm",
+      "Sans électricité",
+      "Sans Bluetooth",
+      "Pièce unique"
+    ],
+    "quote": "Petit format, même effet.",
+    "story": "Un cube noir aux angles arrondis, qui trouve sa place sur un bureau, une table de chevet ou un plan de travail. Un grand modèle gris de 15 x 15 x 20 cm existe aussi.",
+    "specs": [
+      {
+        "label": "Dimensions",
+        "value": "environ 10,5 x 10,5 x 14 cm"
+      },
+      {
+        "label": "Couleur",
+        "value": "Noir"
+      },
+      {
+        "label": "Matière",
+        "value": "PLA"
+      },
+      {
+        "label": "Fonctionnement",
+        "value": "Passif : sans électricité, sans Bluetooth"
+      }
+    ],
+    "faq": [
+      {
+        "q": "Faut-il le brancher ?",
+        "a": "Non. Il fonctionne sans électricité, sans Bluetooth et sans pile."
+      },
+      {
+        "q": "Comment l’utiliser ?",
+        "a": "Posez le téléphone dans la fente du dessus, le pavillon projette le son vers l’avant."
+      },
+      {
+        "q": "Existe-t-il en plus grand ?",
+        "a": "Oui, un grand modèle gris de 15 x 15 x 20 cm.",
+        "mobile": false
+      },
+      {
+        "q": "Comment le recevoir ?",
+        "a": {
+          "d": "Sur Etsy, livraison à domicile avec paiement sécurisé. Sur Leboncoin, envoi ou remise en main propre en Savoie.",
+          "m": "Etsy : livraison à domicile. Leboncoin : envoi ou main propre en Savoie."
+        }
+      }
+    ],
+    "nightImage": 0,
+    "galleryImages": [
+      0,
+      1
+    ],
+    "detailImages": [
+      0,
+      1
+    ],
+    "images": [
+      {
+        "src": "images/ampli-passif-petit-1.jpg",
+        "alt": "Amplificateur passif noir en forme de cube avec pavillon rond et ouïes, sur fond crème",
+        "detailCaption": "Le pavillon et les ouïes."
+      },
+      {
+        "src": "images/ampli-passif-petit-2.jpg",
+        "alt": "Amplificateur passif noir posé sur une table d’appoint en travertin dans un salon lumineux",
+        "detailCaption": "Dans le salon."
+      }
+    ]
   }
 ]
