@@ -265,6 +265,7 @@ function head({ title, description, canonical, ogType, ogImage, site, root, ld }
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(description)}">
   <meta name="theme-color" content="#120D0A">
+  <meta name="p:domain_verify" content="f24cda65a064180337fdcbb4f0655692">
   <link rel="canonical" href="${esc(canonical)}">
   <link rel="icon" href="${root}favicon.svg" type="image/svg+xml">
   <meta property="og:type" content="${ogType}">
