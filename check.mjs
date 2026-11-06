@@ -528,6 +528,11 @@ function checkDist(products, collections) {
           offers.availability !== 'https://schema.org/InStock' || offers.url !== expectedUrl) {
         fail(`${page} : JSON-LD Offer attendu : ${p.priceFrom} ${p.currency ?? 'EUR'} InStock ${expectedUrl}.`);
       }
+      const rp = offers?.hasMerchantReturnPolicy;
+      if (!rp || rp['@type'] !== 'MerchantReturnPolicy' || !rp.applicableCountry || !(rp.merchantReturnDays > 0)) fail(`${page} : JSON-LD Offer : hasMerchantReturnPolicy valide attendu.`);
+      const sd = offers?.shippingDetails;
+      if (!sd || sd['@type'] !== 'OfferShippingDetails' || !sd.shippingDestination?.addressCountry || !sd.deliveryTime?.transitTime) fail(`${page} : JSON-LD Offer : shippingDetails valide attendu.`);
+      if (prods[0].aggregateRating || prods[0].review) fail(`${page} : JSON-LD Product : aucun avis ni note sans source réelle.`);
       if (prods[0].name !== p.name || prods[0].description !== p.description) fail(`${page} : JSON-LD Product : name/description différents des données.`);
       if (!(prods[0].image?.[0] ?? '').startsWith(`${BASE_URL}/`)) fail(`${page} : JSON-LD Product : images en URL absolue attendues.`);
     }

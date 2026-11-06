@@ -652,6 +652,32 @@ ${footer(site, products)}
 // ---------------------------------------------------------------------------
 // Fiche produit
 // ---------------------------------------------------------------------------
+// Politique de retour et livraison des offres (Search Console « Fiches de marchand »).
+// Une seule source : data/site.json › commerce. Aucun avis ni note n'est inventé.
+function offerPolicies(site) {
+  const c = site.commerce;
+  if (!c) return {};
+  const days = ([min, max]) => ({ '@type': 'QuantitativeValue', minValue: min, maxValue: max, unitCode: 'DAY' });
+  return {
+    hasMerchantReturnPolicy: {
+      '@type': 'MerchantReturnPolicy',
+      applicableCountry: c.country,
+      returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+      merchantReturnDays: c.returnDays,
+      returnMethod: 'https://schema.org/ReturnByMail',
+    },
+    shippingDetails: {
+      '@type': 'OfferShippingDetails',
+      shippingDestination: { '@type': 'DefinedRegion', addressCountry: c.country },
+      deliveryTime: {
+        '@type': 'ShippingDeliveryTime',
+        handlingTime: days(c.handlingDays),
+        transitTime: days(c.transitDays),
+      },
+    },
+  };
+}
+
 function productJsonLd(p, site) {
   return {
     '@context': 'https://schema.org',
@@ -668,6 +694,7 @@ function productJsonLd(p, site) {
       priceCurrency: p.currency ?? 'EUR',
       availability: 'https://schema.org/InStock',
       url: p.leboncoinUrl || p.etsyUrl,
+      ...offerPolicies(site),
     },
   };
 }
