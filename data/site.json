@@ -209,5 +209,18 @@
     "etsy": "Boutique Etsy",
     "leboncoin": "Leboncoin",
     "contact": "Contact via Etsy ou Leboncoin"
+  },
+  "commerce": {
+    "_note": "Données structurées des offres (Search Console). Retours : droit légal de rétractation 14 jours ; la boutique Etsy accepte retours et échanges. Livraison : France vers France, estimation Etsy 4 à 12 jours.",
+    "country": "FR",
+    "returnDays": 14,
+    "handlingDays": [
+      1,
+      3
+    ],
+    "transitDays": [
+      3,
+      9
+    ]
   }
 }
